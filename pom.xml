@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.flowable.training</groupId>
+    <artifactId>training-hands-on-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.3</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <modules>
+        <module>training-handson-work</module>
+        <module>training-handson-design</module>
+        <module>training-handson-control</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>11</java.version>
+        <com.flowable.platform.version>3.11.3</com.flowable.platform.version>
+        <liquibase.skip>false</liquibase.skip>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Imports the bill-of-materials POM. -->
+            <dependency>
+                <groupId>com.flowable</groupId>
+                <artifactId>flowable-platform-bom</artifactId>
+                <version>${com.flowable.platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>flowable-repo</id>
+            <url>https://artifacts.flowable.com/artifactory/maven-all</url>
+        </repository>
+    </repositories>
+
+</project>

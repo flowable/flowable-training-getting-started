@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  flowable-db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: flowable
+      POSTGRES_USER: flowable
+      POSTGRES_PASSWORD: flowable
+    ports:
+      - 5432:5432
+    volumes:
+      - data_db:/var/lib/postgresql/data
+
+  flowable-index:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
+    environment:
+      discovery.type: single-node
+      node.name: flowable-node-01
+      cluster.name: flowable-cluster
+      xpack.security.enabled: "false"
+    ports:
+      - 9300:9300
+      - 9200:9200
+    volumes:
+      - data_index:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+volumes:
+  data_db:
+  data_index:
