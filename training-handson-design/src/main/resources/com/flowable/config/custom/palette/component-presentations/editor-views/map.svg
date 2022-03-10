@@ -1,0 +1,150 @@
+<?xml version="1.0"
+        standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+        "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg
+        xmlns:oryx="http://www.b3mn.org/oryx"
+        xmlns="http://www.w3.org/2000/svg"
+        width="300"
+        height="50"
+        version="1.0">
+    <g oryx:minimumSize="28 50">
+        <defs>
+            <marker id="shape"
+                    refX="-2"
+                    refY="0"
+                    markerWidth="24"
+                    markerHeight="24">
+                <svg role="img" width="22" height="22" viewBox="0 -1 16 16">
+                    <g fill="#ccc">
+                        <path fill-rule="evenodd"
+                              d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.502.502 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103zM10 1.91l-4-.8v12.98l4 .8V1.91zm1 12.98l4-.8V1.11l-4 .8v12.98zm-6-.8V1.11l-4 .8v12.98l4-.8z"
+                              oryx:anchors="left top" stroke="#cccccc" fill="#cccccc"/>
+                    </g>
+                </svg>
+            </marker>
+
+            <radialGradient id="transparent"
+                            cx="10%"
+                            cy="10%"
+                            r="100%"
+                            fx="10%"
+                            fy="10%">
+                <stop offset="0%"
+                      stop-color="#ffffff"
+                      stop-opacity="0"/>
+                <stop offset="100%"
+                      stop-color="#ffffff"
+                      stop-opacity="0"/>
+            </radialGradient>
+        </defs>
+
+        <rect id="bg_frame"
+              oryx:anchors="left top"
+              x="0"
+              y="0"
+              width="150"
+              height="26"
+              stroke="none"
+              fill="url(#transparent)"/>
+
+        <g id="a">
+            <rect id="label"
+                  oryx:anchors="left top"
+                  x="0"
+                  y="0"
+                  width="100"
+                  height="24"
+                  stroke="none"
+                  fill="url(#transparent)"/>
+            <text id="label_text"
+                  oryx:anchors="left top"
+                  oryx:align="middle left"
+                  font-size="11"
+                  x="0"
+                  y="9"
+                  stroke="black"/>
+        </g>
+
+        <g id="b">
+            <rect id="input"
+                  oryx:anchors="left top"
+                  fill="#F5F5F5"
+                  stroke-dasharray="10,2"
+                  x="120"
+                  y="0"
+                  height="48"
+                  width="150"/>
+            <path id="input_dependent"
+                  anchors="left top"
+                  d="M7 5  L35 5  L35 31  L7 31  z"
+                  refX="7"
+                  refY="5"
+                  stroke="#cccccc"
+                  fill="none"
+                  marker-start="url(#shape)"
+                  style="opacity:0.9999;"/>
+            <text id="input_text"
+                  anchors="left top"
+                  align="middle left"
+                  font-size="11"
+                  x="40"
+                  y="24"
+                  refX="35"
+                  refY="12"
+                  stroke="black"
+                  fill="gray"
+                  font-style="italic"
+                  stroke-width="0pt"
+                  letter-spacing="-0.01px"
+                  oryx:fontSize="11"
+                  transform="rotate(0 40 24)"
+                  text-anchor="start">
+                <tspan dy="4"
+                       x="40"
+                       y="24">
+                </tspan>
+            </text>
+        </g>
+
+        <g id="c"
+           transform="translate(1,8)">
+            <path id="mandatory_Indicator"
+                  oryx:anchors="middle left"
+                  d='m14.30275,11.94655l-2.49912,0l-0.77223,2.37422l-0.77227,-2.37422l-2.49912,0l2.02183,-1.46721l-0.77229,-2.37417l2.02184,1.46732l2.02183,-1.46732l-0.77232,2.37417l2.02184,1.46721z'
+                  stroke="#ff0000"
+                  fill="#ff0000"
+                  display="none"/>
+        </g>
+
+        <g id="d">
+            <path id="feedback_Indicator"
+                  oryx:anchors="left top"
+                  d='M300,15 320,15 310,0 Z M310 4 L310 10 Z M310 11 L310 13 Z' stroke="black"
+                  fill="#ff0000"
+                  display="none"/>
+        </g>
+
+        <g id="e">
+            <rect id="desc"
+                  oryx:anchors="left top"
+                  stroke="none"
+                  fill="url(#transparent)"
+                  x="120"
+                  y="0"
+                  height="24"
+                  width="150"
+                  display="none"/>
+            <text id="desc_text"
+                  oryx:anchors="left top"
+                  oryx:align="middle left"
+                  font-size="11"
+                  x="120"
+                  y="9"
+                  stroke="black"
+                  fill="gray"
+                  font-style="italic"
+                  display="none"/>
+        </g>
+    </g>
+</svg>
