@@ -43,11 +43,4 @@
         </dependencies>
     </dependencyManagement>
 
-    <repositories>
-        <repository>
-            <id>flowable-repo</id>
-            <url>https://artifacts.flowable.com/artifactory/maven-all</url>
-        </repository>
-    </repositories>
-
 </project>
