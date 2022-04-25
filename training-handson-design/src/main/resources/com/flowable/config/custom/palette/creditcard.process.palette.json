@@ -1,5 +1,4 @@
 {
-  "$schema": "https://developer-docs.flowable.com/schemas/palette.json",
   "Palette-Id": "creditcard-process-palette",
   "patchPalettes": [
     "flowable-process-palette"
@@ -68,10 +67,6 @@
         },
         {
           "id": "servicetaskUseLocalScopeForResultVariable",
-          "visible": false
-        },
-        {
-          "id": "exceptionmappings",
           "visible": false
         }
       ]
