@@ -33,8 +33,8 @@ You can start the Flowable Design and Flowable Control applications accordingly.
 After both docker-compose and the application are started, these are the links for the different applications:
 
 - http://localhost:8090 - Flowable Work
-- http://localhost:8888 - Flowable Design
-- http://localhost:9988 - Flowable Control
+- http://localhost:8091 - Flowable Design
+- http://localhost:8092 - Flowable Control
 
 
 ## Infrastructure Containers
