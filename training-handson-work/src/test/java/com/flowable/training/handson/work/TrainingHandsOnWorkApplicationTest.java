@@ -11,8 +11,4 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 class TrainingHandsOnWorkApplicationTest {
 
-    @Test
-    void canStartApplication() {
-
-    }
 }
