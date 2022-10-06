@@ -9,14 +9,6 @@
             <password>PASSWORD</password> <!-- Replace PASSWORD -->
         </server>
     </servers>
-    <mirrors>
-        <mirror>
-            <id>flowable-mirror</id>
-            <mirrorOf>flowable-artifacts</mirrorOf>
-            <name>flowable</name>
-            <url>https://artifacts.flowable.com/artifactory/flowable-maven-all</url>
-        </mirror>
-    </mirrors>
     <profiles>
         <profile>
             <id>flowable-artifacts</id>
