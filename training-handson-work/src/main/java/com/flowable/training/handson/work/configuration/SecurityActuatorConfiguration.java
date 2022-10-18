@@ -16,6 +16,7 @@ import com.flowable.platform.common.security.SecurityConstants;
 @ConditionalOnClass(EndpointRequest.class)
 @Configuration(proxyBeanMethods = false)
 @Order(6) // Actuator configuration should kick in before the Form Login there should always be http basic for the endpoints
+@SuppressWarnings("deprecation")
 public class SecurityActuatorConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
