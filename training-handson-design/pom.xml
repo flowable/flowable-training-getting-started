@@ -7,9 +7,12 @@
     <artifactId>training-hands-on-design</artifactId>
     <packaging>jar</packaging>
 
+    <name>training-handson-design</name>
+    <description>Training Design</description>
+
     <parent>
-        <groupId>com.flowable.training</groupId>
-        <artifactId>training-hands-on-parent</artifactId>
+        <groupId>com.training</groupId>
+        <artifactId>training-handson-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
