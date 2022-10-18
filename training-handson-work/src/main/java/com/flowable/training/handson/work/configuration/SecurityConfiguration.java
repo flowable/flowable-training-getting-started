@@ -1,9 +1,13 @@
 package com.flowable.training.handson.work.configuration;
 
+import com.flowable.autoconfigure.frontend.FrontendProperties;
 import com.flowable.autoconfigure.security.FlowableWebSecurityConfigurerAdapter;
 import com.flowable.core.spring.security.web.authentication.AjaxAuthenticationFailureHandler;
 import com.flowable.core.spring.security.web.authentication.AjaxAuthenticationSuccessHandler;
 import com.flowable.platform.common.security.SecurityConstants;
+
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -18,18 +22,29 @@ import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfiguration extends FlowableWebSecurityConfigurerAdapter {
 
+    @Autowired
+    protected ObjectProvider<FrontendProperties> frontendPropertiesProvider;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-
         http
                 .logout()
-                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
-                .logoutUrl("/auth/logout")
-                .and()
-                // Non authenticated exception handling. The formLogin and httpBasic configure the exceptionHandling
-                // We have to initialize the exception handling with a default authentication entry point in order to return 401 each time and not have a
-                // forward due to the formLogin or the http basic popup due to the httpBasic
+                .logoutUrl("/auth/logout");
+
+        FrontendProperties frontendProperties = frontendPropertiesProvider.getIfAvailable();
+        if (frontendProperties != null && frontendProperties.getFeatures().containsKey("formBasedLogout")
+                && frontendProperties.getFeatures().get("formBasedLogout")) {
+            http
+                    .logout()
+                    .logoutSuccessUrl("/");
+        } else {
+            http
+                    .logout()
+                    .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+        }
+
+        http
                 .exceptionHandling()
                 .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED), AnyRequestMatcher.INSTANCE)
                 .and()
