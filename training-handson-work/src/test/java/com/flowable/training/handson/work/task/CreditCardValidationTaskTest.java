@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 class CreditCardValidationTaskTest {
 
     @Test
-    @Deployment(resources = "processes/credit-card.bpmn20.xml")
+    @Deployment(resources = "test-processes/credit-card.bpmn20.xml")
     void executeTask_withValidCardNumber_ensureValidTrue() {
 
     }
