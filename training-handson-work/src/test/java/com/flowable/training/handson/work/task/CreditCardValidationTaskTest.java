@@ -39,7 +39,7 @@ class CreditCardValidationTaskTest {
     private TaskService taskService;
 
     @Test
-    @Deployment(resources = "processes/credit-card.bpmn20.xml")
+    @Deployment(resources = "test-processes/credit-card.bpmn20.xml")
     void executeTask_withValidCardNumber_ensureValidTrue() {
         // Create a new process instance
         ProcessInstance instance = this.runtimeService.createProcessInstanceBuilder()
