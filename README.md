@@ -1,67 +1,78 @@
-# Flowable Development Training Repository Guide
+# Ac Me Project X Flowable Work
 
-This repository is designed to assist you in the `Getting Started with Flowable Development` course.
+## Preparation
+### Building the project artifacts
+Java and Maven are needed as a prerequisite to build this code.
+The Maven configuration of the project tries to get the Flowable dependencies form the Flowable Enterprise Repository.
+That Repository needs a Flowable enterprise account to be accessible. Get in contact with Flowable to get your Flowable subscription.
 
-## Prerequisites
+As soon as you got your username and password you can add it to the `settings-flowable.xml` file in the root of the project.
+(Keep in mind, that using an unencrypted password in this file is indeed a fast but also not a suggested approach.
+Check https://maven.apache.org/guides/mini/guide-encryption.html on how to encrypt your password.)
 
-Before you begin, ensure you have the following:
+You can then create the Flowable artifacts by executing `mvn -s settings-flowable.xml clean package`.
 
-1. Access to the commercial Flowable artifacts. If you don't have access, please reach out to your instructor or Customer Success Manager.
-2. A Java development environment (Java 17 or newer). We recommend using `IntelliJ IDEA Ultimate` or `Visual Studio Code`.
-3. The Maven settings.xml and a license for accessing Flowable's commercial artifacts.
+### Flowable `infraless` profile
+For a setup of a decent development infrastructure dedicated Postgres and Elasticsearch instances are heavily suggested
+(e.g. by using Docker, see next chapter).
 
-## IDE Setup
+For participating a Flowable Training course it is possible to run Flowable with an `infraless` profile with an embedded H2
+database and in a mode that works without Elasticsearch.
+You can activate this `infraless` profile by adding it to the list of activated Spring profiles for Flowable Work, Design
+and Control by either using the start configuration of your IDE or by setting `spring.profiles.active=infraless` as a
+JVM parameter or environment variable.
 
-### IntelliJ IDEA
+**ATTENTION**: Keep in mind that the `infraless` profiles does not provide the full Flowable functionality and is absolutely
+not suggested for development, test or even production purposes.
 
-1. Download and install IntelliJ IDEA Ultimate (not Community!) from the [official website](https://www.jetbrains.com/idea/download/).
-2. Open IntelliJ IDEA and select `Open` or `Import` from the welcome screen.
-3. Navigate to the directory where you cloned the training project and select the project's root directory.
-4. IntelliJ IDEA will automatically detect and configure the project based on the `pom.xml` files.
+### Setting up the needed Infrastructure
+Please check the following links on how to setup the infrastructure for Flowable manually without
+using Docker:
 
-### Visual Studio Code
+- [Postgres Database](https://documentation.flowable.com/latest/admin/installs/engage-full/#database-1)
+- [Elasticsearch](https://documentation.flowable.com/latest/admin/installs/engage-full/#elasticsearch-1)
 
-1. Download and install Visual Studio Code from the [official website](https://code.visualstudio.com/download).
-2. Install the `Extension Pack for Java` from the Extensions view (`Ctrl+Shift+X`).
-3. Install the `Spring Boot Extension Pack` from the Extensions view (`Ctrl+Shift+X`).
-4. Open Visual Studio Code and select `Open Folder` from the welcome screen or from the `File` menu.
-5. Navigate to the directory where you cloned the training project and select the project's root directory.
-6. Visual Studio Code will automatically detect and configure the project based on the `pom.xml` files.
+For an easier setup with help of Docker navigate to `/docker`, then execute `docker-compose up`. Needed services such as
+Elasticsearch and a database will be started.
 
-## Setup Instructions
+## Starting the project
+Afterwards you can start the Spring Boot application defined in `com.flowable.training.handson.work.TrainingHandsOnWorkApplication`. In order to achieve this,
+you can build the executable war file with maven and execute `java -jar` pointing to the built jar or create a new IDE Run Configuration.
+Then open `http://localhost:8090` in the browser and use one of the users specified below in this document.
 
-Follow these steps to set up your environment:
+You can start the Flowable Design and Flowable Control applications accordingly.
 
-1. Place the provided settings.xml in your `.m2` directory. For Windows, this is `C:\Users\YourUser\.m2` and for MacOS, it's `/Users/your.user/.m2`. If there's
-   an existing file, make sure to back it up first.
-2. Download and place the provided license file in your `.flowable` directory, which is `C:\Users\YourUser\.flowable` (Windows)
-   or `/Users/your.user/.flowable` (MacOS).
-3. Clone the training project from https://github.com/flowable/flowable-training-getting-started and open it in your Java IDE.
-4. After all artifacts have been synchronized, you can start any of the Spring Boot applications.
+## Helpful links
+After both docker-compose and the application are started, these are the links for the different applications:
 
-## Accessing the Applications
+- http://localhost:8090 - Flowable Work
+- http://localhost:8091 - Flowable Design
+- http://localhost:8092 - Flowable Control
 
-Once the application are started, you can access the applications at the following URLs:
+## Setting up Flowable vanilla apps with Docker
+The docker-compose.yml file also contains (commented out) preconfigured service definitions to run all Flowable apps as
+vanilla docker images. Just uncomment the appropriate parts to start the apps together with the other infrastructure.
+These vanilla services are preconfigured to run as a replacement of any of the customized apps within this project.
 
-- Flowable Work: http://localhost:8090
-- Flowable Design: http://localhost:8091
-- Flowable Control: http://localhost:8092
+To be able to use them, log in to docker `docker login artifacts.flowable.com` by using your Flowable login.
+You will also need an appropriate Flowable license stored in `~/.flowable/flowable.license`.
+Also, a decent amount of memory is needed for your docker VM. At least 4 GB are suggested.
+Navigate to `/docker`, then execute `docker-compose up`.
 
-## Docker Setup
+## Infrastructure Containers
+If you need to recreate the containers, perform the following actions:
+- Make sure the application and the docker containers are stopped.
+- Execute `docker-compose down` inside the `/docker` directory. This will remove the created containers.
 
-If you wish to use Docker for setting up your database and Elasticsearch, follow these steps:
+## Data
+Data created by the database and Elasticsearch are stored in docker volumes `data_db` and `data_es`.
+This allows you to purge and recreate the containers without loosing any data.
 
-1. Ensure Docker is installed and running on your machine.
-2. Navigate to the directory containing the `docker-compose.yml` file.
-3. Run the command `docker-compose up` to start the services defined in the `docker-compose.yml` file.
+If you need a clean state for the database and elasticsearch just execute `docker-compose down -v`inside the `/docker` directory.
+The volumes will be recreated as soon as you restart the containers.  
+BE CAREFUL AS WITH THIS YOU WILL LOSE ALL YOUR DATA STORED IN THE DATABASE AND ELASTICSEARCH!
 
-To use a Postgres database and Elasticsearch with the Spring Boot applications, you need to start the applications with the `postgres` and `elastic` profiles
-respectively.
-
-## Sample User Details
-
-Here are the details for a sample user:
-
-| Username | Password | Role  |
-|----------|----------|-------|
-| admin    | test     | admin |
+## Sample users
+| User | User Definition Key | Login | Password |
+| -------------| ------------- | ------------- | ------------- |
+| Flowable Administrator | admin-flowable | admin | test |
