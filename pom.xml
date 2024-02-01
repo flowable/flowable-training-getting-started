@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.6</version>
+        <version>3.1.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -28,8 +28,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>11</java.version>
-        <com.flowable.platform.version>3.13.2</com.flowable.platform.version>
+        <java.version>17</java.version>
+        <com.flowable.platform.version>3.15.1</com.flowable.platform.version>
         <liquibase.skip>false</liquibase.skip>
     </properties>
 

@@ -1,7 +1,4 @@
-package com.flowable.training.handson.work.configuration;
-
-import com.flowable.actuate.autoconfigure.security.servlet.ActuatorRequestMatcher;
-import com.flowable.platform.common.security.SecurityConstants;
+package com.flowable.training.handson.design.configuration;
 
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.actuate.health.HealthEndpoint;
@@ -15,22 +12,24 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.flowable.design.actuate.autoconfigure.security.servlet.ActuatorRequestMatcher;
+import com.flowable.design.engine.api.idm.DesignPrivileges;
+
 @Configuration
 public class SecurityActuatorConfiguration {
 
     @Bean
     @Order(6)
     public SecurityFilterChain basicActuatorSecurity(HttpSecurity http) throws Exception {
-
         http
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy( SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable);
 
         http
                 .securityMatcher(new ActuatorRequestMatcher())
                 .authorizeHttpRequests(configurer -> configurer
                         .requestMatchers(EndpointRequest.to(InfoEndpoint.class, HealthEndpoint.class)).permitAll()
-                        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasAuthority(SecurityConstants.ACCESS_ACTUATORS)
+                        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasAuthority(DesignPrivileges.ACCESS_ADMIN)
                         .anyRequest().denyAll()
                 )
                 .httpBasic(Customizer.withDefaults());
