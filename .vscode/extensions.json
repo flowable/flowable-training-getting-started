@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "vscjava.vscode-java-pack",
+    "dcortes92.FreeMarker",
+    "vmware.vscode-boot-dev-pack"
+  ]
+}
