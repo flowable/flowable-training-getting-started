@@ -1,15 +1,25 @@
 {
   "$schema": "https://developer-docs.flowable.com/schemas/palette.json",
   "Palette-Id": "creditcard-process-palette",
+  "title": "Credit Card Process Palette",
   "patchPalettes": [
-    "flowable-process-palette"
+    "flowable-core-process-palette"
   ],
   "resourceBundles": [
     "com/flowable/config/custom/palette/translation"
   ],
+  "presentations": [
+    {
+      "id": "ValidCreditCardNumber.presentation",
+      "icon": "component-presentation/palette-icons/credit-card.svg",
+      "bigIcon": "component-presentation/palette-icons/credit-card.svg"
+    }
+  ],
   "groups": {
-    "scooter": {
-      "index": 350
+    "creditcard": {
+      "title": "Credit Card",
+      "description": "Credit card related tasks",
+      "index": 100
     }
   },
   "stencils": [
@@ -17,22 +27,21 @@
       "id": "ValidCreditCardNumber",
       "superId": "ServiceTask",
       "groups": [
-        "scooter"
+        "creditcard"
       ],
-      "icon": "../palette-icons?id=component-presentation/palette-icons/credit-card.png",
-      "bigIcon": "../palette-icons?id=component-presentation/palette-icons/credit-card.svg",
+      "presentationId": "ValidCreditCardNumber.presentation",
       "properties": [
         {
           "id": "card-number",
           "type": "SimpleTextExpression",
-          "index": 1,
-          "category": "edoras"
+          "index": 100,
+          "category": "commonDetails"
         },
         {
           "id": "validation-result-variable-name",
           "type": "SimpleText",
-          "index": 2,
-          "category": "edoras",
+          "index": 110,
+          "category": "commonDetails",
           "variableExtractor": {
             "type": "simple"
           }
