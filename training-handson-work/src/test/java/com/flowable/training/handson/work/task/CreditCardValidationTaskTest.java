@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class CreditCardValidationTaskTest {
 
     @Test
-    @Deployment(resources = "test-processes/credit-card.bpmn20.xml")
+    @Deployment(resources = "test-processes/exercise3.bpmn")
     void executeTask_withValidCardNumber_ensureValidTrue() {
 
     }
