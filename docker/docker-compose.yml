@@ -1,0 +1,130 @@
+version: '3.4'
+
+services:
+  flowable-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: flowable
+      POSTGRES_USER: flowable
+      POSTGRES_PASSWORD: flowable
+    ports:
+      - 5432:5432
+    volumes:
+      - data_db:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "flowable", "-U", "flowable" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  flowable-index:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.2
+    environment:
+      discovery.type: single-node
+      node.name: flowable-node-01
+      cluster.name: flowable-cluster
+      xpack.security.enabled: "false"
+    ports:
+      - 9300:9300
+      - 9200:9200
+    volumes:
+      - data_index:/usr/share/elasticsearch/data
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://host.docker.internal:9200"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  # Vanilla Flowable Work, uncomment to activate
+  # This image requires to login to the Flowable Docker Repo (docker login artifacts.flowable.com)
+#  flowable-work:
+#    image: artifacts.flowable.com/flowable/flowable-work:3.15.0
+#    environment:
+#      flowable.license.db-store-enabled: "false"
+#      flowable.inspect.enabled: "true"
+#      flowable.security.impersonate.allowed: "true"
+#      flowable.platform.enable-latest-form-definition-lookup: "true"
+#      flowable.platform.idm.minimal-setup: "true"
+#      flowable.example.deploy-apps: "false"
+#      info.env.name: Development
+#      logging.file.name: flowable-work.log
+#      management.elastic.metrics.export.enabled: "true"
+#      management.endpoints.web.exposure.include: "*"
+#      management.endpoint.health.show-details: ALWAYS
+#      server.servlet.context-path: /
+#      spring.elasticsearch.uris: http://host.docker.internal:9200
+#      spring.datasource.driver-class-name: org.postgresql.Driver
+#      spring.datasource.url: jdbc:postgresql://host.docker.internal:5432/flowable
+#      spring.datasource.username: flowable
+#      spring.datasource.password: flowable
+#    ports:
+#      - 8090:8080
+#    volumes:
+#      - ~/.flowable/flowable.license:/home/flowable/.flowable/flowable.license:ro
+#    depends_on:
+#      flowable-db:
+#        condition: service_healthy
+#      flowable-index:
+#        condition: service_healthy
+
+  # Vanilla Flowable Design, uncomment to activate
+  # This image requires to login to the Flowable Docker Repo (docker login artifacts.flowable.com)
+#  flowable-design:
+#    image: artifacts.flowable.com/docker-local/flowable/flowable-design:3.15.0
+#    environment:
+#      flowable.design.remote.authentication.user: admin
+#      flowable.design.remote.authentication.password: test
+#      flowable.design.remote.idm-url: http://host.docker.internal:8090
+#      flowable.design.deployment-api-url: http://host.docker.internal:8090/app-api # not yet working for linux systems, check https://github.com/docker/for-linux/issues/264 for PR state and workarounds
+#      flowable.design.undeployment-api-url: http://host.docker.internal:8090/platform-api/app-deployments # not yet working for linux systems, check https://github.com/docker/for-linux/issues/264 for PR state and workarounds
+#      flowable.design.db-store-enabled: "false"
+#      logging.file: flowable-design.log
+#      server.servlet.context-path: /
+#      spring.datasource.driver-class-name: org.postgresql.Driver
+#      spring.datasource.url: jdbc:postgresql://host.docker.internal:5432/flowable
+#      spring.datasource.username: flowable
+#      spring.datasource.password: flowable
+#    ports:
+#      - 8091:8080
+#    volumes:
+#      - ~/.flowable/flowable.license:/home/flowable/.flowable/flowable.license:ro
+#    depends_on:
+#      flowable-db:
+#        condition: service_healthy
+
+  # Vanilla Flowable Control, uncomment to activate
+  # This image requires to login to the Flowable Docker Repo (docker login artifacts.flowable.com)
+#  flowable-control:
+#    image: artifacts.flowable.com/docker-local/flowable/flowable-control:3.15.0
+#    environment:
+#      flowable.common.app.idm-admin.user: admin
+#      flowable.common.app.idm-admin.password: test
+#      flowable.control.app.cluster-config.server-address: http://host.docker.internal # not yet working for linux systems, check https://github.com/docker/for-linux/issues/264 for pr state and workarounds
+#      flowable.control.app.cluster-config.server-port: 8090
+#      flowable.control.app.cluster-config.context-root: /
+#      flowable.control.app.cluster-config.password: test
+#      flowable.control.app.db-store-enabled: "false"
+#      logging.file: flowable-control.log
+#      server.servlet.context-path: /
+#      spring.datasource.driver-class-name: org.postgresql.Driver
+#      spring.datasource.url: jdbc:postgresql://host.docker.internal:5432/flowable
+#      spring.datasource.username: flowable
+#      spring.datasource.password: flowable
+#    ports:
+#      - 8092:8080
+#    volumes:
+#      - ~/.flowable/flowable.license:/home/flowable/.flowable/flowable.license:ro
+#    depends_on:
+#      flowable-db:
+#        condition: service_healthy
+
+# Volumes will get a prefix based on the `.env` file and data can be cleared by `docker-compose down -v`
+volumes:
+  data_db:
+  data_index:

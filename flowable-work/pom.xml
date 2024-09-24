@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>flowable-work</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Flowable Work</name>
+    <description>Flowable AG Getting Started with Flowable Development Flowable Work</description>
+
+    <parent>
+        <groupId>com.flowable.training</groupId>
+        <artifactId>development-training-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+
+        <!-- Flowable AG Getting Started with Flowable Development -->
+        <!-- =============== -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+        <!-- Flowable Frontend -->
+        <!-- ================= -->
+        <dependency>
+            <groupId>com.flowable.work</groupId>
+            <artifactId>flowable-work-frontend</artifactId>
+        </dependency>
+
+        <!-- Flowable Platform -->
+        <!-- ================= -->
+        <dependency>
+            <groupId>com.flowable.platform</groupId>
+            <artifactId>flowable-spring-boot-starter-platform-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flowable.platform</groupId>
+            <artifactId>flowable-tenant-setup</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flowable.platform</groupId>
+            <artifactId>flowable-platform-default-models</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.flowable.platform</groupId>
+            <artifactId>flowable-platform-default-idm-models</artifactId>
+        </dependency>
+
+        <!-- Flowable Inspect -->
+        <!-- ================ -->
+        <dependency>
+            <groupId>com.flowable.inspect</groupId>
+            <artifactId>flowable-spring-boot-starter-inspect-rest</artifactId>
+        </dependency>
+
+        <!-- Flowable Actuators -->
+        <!-- ================== -->
+        <dependency>
+            <groupId>com.flowable.platform</groupId>
+            <artifactId>flowable-spring-boot-starter-platform-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-elastic</artifactId>
+        </dependency>
+
+        <!-- Spring Boot -->
+        <!-- =========== -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Testing -->
+        <!-- ======= -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

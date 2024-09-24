@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Web Portal" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+    <module name="flyable-webportal" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.flowable.training.flyable.FlyableWebportalApplication" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.flowable.training.flyable.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

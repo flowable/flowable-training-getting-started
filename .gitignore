@@ -1,0 +1,25 @@
+# Maven / NPM
+target/
+dist/
+node_modules/
+*.js.map
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Visual Studio Code
+*.code-workspace
+.project
+.classpath
+.settings/
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Docker
+docker/data/
+
+# Flowable
+h2-database/

@@ -1,0 +1,125 @@
+
+
+
+:root {
+  font-size: initial;
+}
+
+// this will fix form entry/group sizes within flowable grid
+.flw__panel__col--12 {
+  // display: flex;
+  position: relative;
+  & .form__entry {
+    flex: 1;
+  }
+
+  & .form__entrygroup {
+    flex: 1;
+  }
+
+  & .form__fieldset {
+    flex: 1;
+  }
+}
+
+@for $i from 1 through 11 {
+  .flw__panel__col--#{$i} {
+    display: flex;
+    position: relative;
+
+    & .form__entry {
+      flex: 1;
+    }
+
+    & .form__fieldset {
+      flex: 1;
+    }
+
+    &.flw__panel__col--#{$i}:not(:last-child) {
+      padding-right: 1rem;
+    }
+  }
+}
+
+// fixing sizing within work
+.theme-flowable {
+
+  & .form__entry, .form__entrygroup, .form__fieldset {
+    font-size: 16px;
+  }
+
+  & .form__input, .form__textarea {
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+
+  & .form__input[type="radio"], .form__input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+
+    &::before {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  & .form__field-maxlengthinfo {
+    font-size: 0.9rem;
+  }
+
+  & .form__input[type=checkbox]:after, .form__input[type=radio]:after {
+    top: 0.15rem;
+    left: 0.15rem;
+    height: 0.9rem;
+    width: 0.9rem;
+  }
+
+  & .form__input[type=checkbox]:after {
+    top: 0.1rem;
+  }
+
+  & .form__input[type=radio]:after {
+    left: 0.12rem;
+  }
+
+  @media (min-width: 1200px) {
+    & .flw-formDialog__content--medium {
+      min-width: 1200px;
+      width: 1200px;
+    }
+  }
+
+  & .react-select {
+    font-size: 16px;
+
+    & .css-dmg9ye-control, .css-12z0rmj-control {
+      min-height: 3rem;
+    }
+  }
+}
+
+// Fix pagetitle font color for work and design
+#formPreview, .theme-flowable {
+  & .pagetitle {
+    color: #262626;
+  }
+}
+
+.form__cloneable__remove {
+  position:relative;
+  float:right;
+}
+
+$subforminstance-grid-border: var(--size-layout-line) solid var(--color-layout--line) !default;
+
+// ktag subform styling
+.subforminstance__grid-show-border {
+  border: $subforminstance-grid-border;
+  padding: var(--teaser-bezel);
+}
+
+.subform__button-add{
+  display: block;
+  margin-left: auto;
+  margin-right: 6rem;
+}
