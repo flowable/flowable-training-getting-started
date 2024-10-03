@@ -1,3 +1,7 @@
+# Store the current branch name
+$originalBranch = git rev-parse --abbrev-ref HEAD
+Write-Output "Starting from branch: $originalBranch"
+
 # List all branches following the "gsd-*" pattern
 $branches = @(git branch --list "gsd-*" --format="%(refname:short)" | Where-Object { $_ -ne "" } | Sort-Object)
 
@@ -60,12 +64,24 @@ try {
         Write-Output "Successfully pushed '$currentBranch'."
     }
 
-    # Switch back to the main branch
-    git checkout master
-    Write-Output "Rebasing and pushing completed. You are now back on the 'master' branch."
+    # Switch back to the original branch
+    Write-Output "Switching back to original branch: $originalBranch"
+    git checkout $originalBranch
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to switch back to original branch '$originalBranch'"
+    }
+    Write-Output "Successfully returned to '$originalBranch'."
 }
 catch {
     Write-Output "An error occurred: $_"
+
+    # Try to return to original branch even if there was an error
+    Write-Output "Attempting to return to original branch '$originalBranch'..."
+    git checkout $originalBranch
+    if ($LASTEXITCODE -ne 0) {
+        Write-Output "Warning: Failed to return to original branch '$originalBranch'"
+    }
+
     exit 1
 }
 finally {
