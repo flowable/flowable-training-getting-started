@@ -85,7 +85,18 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Testing -->
+        <!-- Custom dependencies -->
+        <!-- ======= -->
+        <!-- https://mvnrepository.com/artifact/commons-validator/commons-validator -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+
+
+
+    <!-- Testing -->
         <!-- ======= -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
