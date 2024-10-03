@@ -40,6 +40,11 @@ services:
       timeout: 5s
       retries: 3
       start_period: 20s
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
 
   # Vanilla Flowable Work, uncomment to activate
   # This image requires to login to the Flowable Docker Repo (docker login artifacts.flowable.com)
