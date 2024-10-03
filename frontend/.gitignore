@@ -25,3 +25,4 @@ node
 *.njsproj
 *.sln
 *.sw?
+/package-lock.json
