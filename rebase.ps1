@@ -1,5 +1,5 @@
 # List all branches following the "gsd-*" pattern
-$branches = git branch --list "gsd-*" | ForEach-Object { $_.Trim() } | Sort-Object
+$branches = @(git branch --list "gsd-*" --format="%(refname:short)" | Where-Object { $_ -ne "" } | Sort-Object)
 
 # Check if any branches are found
 if ($branches.Count -eq 0) {
@@ -7,40 +7,77 @@ if ($branches.Count -eq 0) {
     exit 1
 }
 
-# Iterate over each branch and perform rebase
-for ($i = 1; $i -lt $branches.Count; $i++) {
-    $currentBranch = $branches[$i]
-    $parentBranch = $branches[$i - 1]
+# Debug output to verify branches
+Write-Output "Found the following branches:"
+$branches | ForEach-Object { Write-Output "  $_" }
 
-    Write-Output "Rebasing branch '$currentBranch' onto its parent '$parentBranch'..."
-
-    # Checkout the current branch
-    git checkout $currentBranch
-
-    # Perform the rebase
-    $rebaseResult = git rebase $parentBranch
-
+# Check for unstaged changes and stash them if present
+$status = git status --porcelain
+$hasChanges = $false
+if ($status) {
+    Write-Output "Detected uncommitted changes. Stashing them temporarily..."
+    git stash push -m "Temporary stash for rebase script"
     if ($LASTEXITCODE -ne 0) {
-        Write-Output "Rebase failed for branch '$currentBranch'. Resolve conflicts, then run:"
-        Write-Output "`t git rebase --continue"
-        Write-Output "Or if you want to abort: `t git rebase --abort"
+        Write-Output "Failed to stash changes. Please resolve any issues before running the script."
         exit 1
     }
-
-    Write-Output "Successfully rebased '$currentBranch' onto '$parentBranch'."
-
-    # Push the rebased branch to the remote repository
-    Write-Output "Pushing '$currentBranch' to the remote repository..."
-    git push --force-with-lease
-
-    if ($LASTEXITCODE -ne 0) {
-        Write-Output "Push failed for branch '$currentBranch'. Please check the error and push manually."
-        exit 1
-    }
-
-    Write-Output "Successfully pushed '$currentBranch'."
+    $hasChanges = $true
+    Write-Output "Changes stashed successfully."
 }
 
-# Switch back to the main branch
-git checkout master
-Write-Output "Rebasing and pushing completed. You are now back on the 'master' branch."
+try {
+    # Iterate over each branch and perform rebase
+    for ($i = 0; $i -lt $branches.Count; $i++) {
+        $currentBranch = $branches[$i]
+        $parentBranch = if ($i -eq 0) { "master" } else { $branches[$i - 1] }
+        Write-Output "Current branch: $currentBranch"
+
+        Write-Output "Rebasing branch '$currentBranch' onto its parent '$parentBranch'..."
+
+        # Checkout the current branch
+        $checkoutResult = git checkout $currentBranch
+        if ($LASTEXITCODE -ne 0) {
+            throw "Failed to checkout branch '$currentBranch'"
+        }
+
+        # Perform the rebase
+        $rebaseResult = git rebase $parentBranch
+
+        if ($LASTEXITCODE -ne 0) {
+            throw "Rebase failed for branch '$currentBranch'. Resolve conflicts, then run:`n`t git rebase --continue`nOr if you want to abort:`n`t git rebase --abort"
+        }
+
+        Write-Output "Successfully rebased '$currentBranch' onto '$parentBranch'."
+
+        # Push the rebased branch to the remote repository
+        Write-Output "Pushing '$currentBranch' to the remote repository..."
+        git push --force-with-lease
+
+        if ($LASTEXITCODE -ne 0) {
+            throw "Push failed for branch '$currentBranch'. Please check the error and push manually."
+        }
+
+        Write-Output "Successfully pushed '$currentBranch'."
+    }
+
+    # Switch back to the main branch
+    git checkout master
+    Write-Output "Rebasing and pushing completed. You are now back on the 'master' branch."
+}
+catch {
+    Write-Output "An error occurred: $_"
+    exit 1
+}
+finally {
+    # Restore stashed changes if we stashed them
+    if ($hasChanges) {
+        Write-Output "Restoring your uncommitted changes..."
+        git stash pop
+        if ($LASTEXITCODE -ne 0) {
+            Write-Output "Warning: Failed to restore stashed changes. Your changes are still in the stash."
+            Write-Output "You can restore them manually with 'git stash pop' or 'git stash apply'"
+            exit 1
+        }
+        Write-Output "Successfully restored your uncommitted changes."
+    }
+}
