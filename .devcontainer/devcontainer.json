@@ -6,7 +6,6 @@
 	"image": "mcr.microsoft.com/devcontainers/base:focal",
 	"features": {
 		"ghcr.io/devcontainers/features/github-cli:1": {},
-		"ghcr.io/devcontainers/features/java:1": {},
 		"ghcr.io/devcontainers/features/node:1": {},
 		"ghcr.io/meaningful-ooo/devcontainer-features/homebrew:2": {},
 		"ghcr.io/natescherer/devcontainers-custom-features/k9s:1": {},
