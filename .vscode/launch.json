@@ -1,0 +1,41 @@
+{
+    "compounds": [
+      {
+        "name": "Flowable",
+        "configurations": ["Flowable Work", "Flowable Design"],
+        "stopAll": false
+      }
+    ],
+    "configurations": [
+      {
+        "type": "java",
+        "name": "Flowable Work",
+        "request": "launch",
+        "cwd": "${workspaceFolder}/training-handson-work/target",
+        "console": "internalConsole",
+        "mainClass": "com.flowable.training.handson.work.TrainingHandsOnWorkApplication",
+        "args": "--spring.profiles.active=local --spring.output.ansi.enabled=always",
+        "projectName": "training-hands-on-work"
+      },
+      {
+        "type": "java",
+        "name": "Flowable Design",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "console": "internalConsole",
+        "mainClass": "com.flowable.training.handson.design.TrainingHandsOnDesignApplication",
+        "args": "--spring.profiles.active=local --spring.output.ansi.enabled=always",
+        "projectName": "training-hands-on-design"
+      },
+      {
+        "type": "java",
+        "name": "Flowable Control",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "console": "internalConsole",
+        "mainClass": "com.flowable.training.handson.control.TrainingHandsOnControlApplication",
+        "args": "--spring.profiles.active=local --spring.output.ansi.enabled=always",
+        "projectName": "training-hands-on-control"
+      }
+    ]
+}

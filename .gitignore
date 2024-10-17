@@ -13,7 +13,6 @@ node_modules/
 .project
 .classpath
 .settings/
-.vscode/
 
 # MacOS
 .DS_Store
