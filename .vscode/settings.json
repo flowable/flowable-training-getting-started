@@ -1,4 +1,28 @@
 {
     "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m -Xlog:disable",
-    "java.compile.nullAnalysis.mode": "automatic"
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorCustomizations": {
+      "debugConsole.infoForeground": "#ffffff"
+    },
+    "workbench.startupEditor": "none",
+    "problems.decorations.enabled": false,
+    "security.workspace.trust.enabled": false,
+    "redhat.telemetry.enabled": false,
+    "spring-boot.ls.problem.version-validation.UPDATE_LATEST_PATCH_VERSION": "IGNORE",
+    "extensions.ignoreRecommendations" : true,
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.compile.nullAnalysis.mode": "disabled",
+    "java.server.launchMode": "Standard",
+    "boot-java.rewrite.reconcile": true,
+    "java.completion.filteredTypes": [
+      "java.awt.*",
+      "com.sun.*",
+      "sun.*",
+      "jdk.*",
+      "org.graalvm.*",
+      "io.micrometer.shaded.*",
+      "com.aspose.*",
+      "groovyjarjarantlr.*"
+    ]
 }
