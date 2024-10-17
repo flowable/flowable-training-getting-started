@@ -5,7 +5,6 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/base:focal",
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
 		"ghcr.io/devcontainers/features/github-cli:1": {},
 		"ghcr.io/devcontainers/features/java:1": {},
 		"ghcr.io/devcontainers/features/node:1": {},
@@ -18,7 +17,6 @@
 			"extensions": [
 				"vscjava.vscode-maven",
 				"vscjava.vscode-java-debug",
-				"ms-azuretools.vscode-docker",
 				"vscjava.vscode-java-pack",
 				"dcortes92.FreeMarker",
 				"VisualStudioExptTeam.vscodeintellicode",
@@ -30,8 +28,7 @@
 				"vmware.vscode-boot-dev-pack",
 				"vmware.vscode-spring-boot",
 				"vscjava.vscode-spring-initializr",
-				"vscjava.vscode-java-test",
-				"Oracle.oracle-java"
+				"vscjava.vscode-java-test"
 			]
 		}
 	}
