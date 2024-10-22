@@ -2,6 +2,7 @@ package com.flowable.training.handson.design.service;
 
 import com.flowable.design.engine.api.history.AppRevision;
 import com.flowable.design.engine.api.runtime.Model;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.NoFilepatternException;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -22,10 +22,8 @@ import java.nio.file.*;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-
-import java.io.File;
-import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 
 @Service
 public class GitRepoPublisherService {
@@ -38,6 +36,9 @@ public class GitRepoPublisherService {
 
     @Value("${flowable.design.git.repo.clone-dir}")
     private String filePath;
+
+    @Value("${flowable.design.git.repo.untracked-models-dir}")
+    private String untrackedPath;
 
     @Value("${flowable.design.git.repo.uri}")
     private String uri;
@@ -59,15 +60,11 @@ public class GitRepoPublisherService {
 
         checkoutTargetBranch(repo, branchName, creds);
 
-        //stageFilesToTrackedBranch(repo, appRevision.getAppKey(), true);
+        deleteDirectoryContents(new File(untrackedPath)); //ensure untracked path is empty
 
-        modelDefinitionWriterService.saveFilesFilesystem(appRevision, "/home/codespace/models-untracked");
+        modelDefinitionWriterService.saveFilesFilesystem(appRevision, untrackedPath);
 
-        syncAndCommitPublishedModels(repo, new File(filePath), new File("/home/codespace/models-untracked/"));
-
-        //stageFilesToTrackedBranch(repo, appRevision.getAppKey(), false);
-
-        commitStagedFiles(repo, appRevision);
+        syncAndCommitPublishedModels(repo, appRevision.getAppKey(), new File(filePath + "/" + appRevision.getAppKey()), new File(untrackedPath + appRevision.getAppKey()));
 
         pushCommit(repo, branchName, creds);
 
@@ -124,35 +121,6 @@ public class GitRepoPublisherService {
         }
     }
 
-    private void stageFilesToTrackedBranch(Git repo, String app, Boolean update) {
-        try {
-            repo.add().setUpdate(update)
-                    .addFilepattern(app)
-                    .call();
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to add existing files to tracked branch", e);
-        }
-    }
-
-    private void commitStagedFiles(Git repo, AppRevision appRevision) {
-        String commitMessage = !appRevision.getDescription().trim().isEmpty()
-                ? appRevision.getDescription()
-                    .concat( ": " + appRevision.getAppKey())
-                    .concat("-" + appRevision.getKey())
-                : "Update Deployed Application : ".concat(appRevision.getAppKey())
-                    .concat("-" + appRevision.getKey());
-
-        try {
-            if(!repo.status().call().isClean()) {
-                repo.commit()
-                        .setMessage(commitMessage)
-                        .call();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to commit changes on local branch", e);
-        }
-    }
-
     private void pushCommit(Git repo, String branchName, UsernamePasswordCredentialsProvider creds) {
         try {
             repo.push().setCredentialsProvider(creds).setRemote(REMOTE).add(branchName).call();
@@ -160,6 +128,7 @@ public class GitRepoPublisherService {
             throw new RuntimeException("Unable to push commited changes to remote", e);
         }
     }
+
     private void deleteLocalBranch(Git repo, String branchName) {
         try {
             repo.checkout().setName(remoteBranch).call();
@@ -168,13 +137,12 @@ public class GitRepoPublisherService {
             throw new RuntimeException("Unable to delete local branch after pushing commited changes.", e);
         }
     }
+
+    // ##TODO
     private void openMergeRequest(Git repo, String branchName, UsernamePasswordCredentialsProvider creds) {
     }
 
-        // Assuming you have the Git object available, typically created as:
-    // Git git = Git.open(new File(repoDirectory));
-
-    public void syncAndCommitPublishedModels(Git git, File trackedDirectory, File newModelsDirectory) throws IOException, GitAPIException {
+    public void syncAndCommitPublishedModels(Git git, String appKey, File trackedDirectory, File newModelsDirectory) throws IOException, GitAPIException {
         // Stage all current tracked files
         git.add().addFilepattern(".").call();
 
@@ -187,16 +155,19 @@ public class GitRepoPublisherService {
 
         // Stage deletions
         for (String fileToDelete : trackedFiles) {
-            git.rm().addFilepattern(fileToDelete).call();
+            git.rm().addFilepattern(appKey + "/" + fileToDelete).call();
         }
 
         // Copy new model files to the tracked directory
         copyDirectory(newModelsDirectory, trackedDirectory);
 
+        deleteDirectoryContents(newModelsDirectory);
+
         // Stage the newly added and modified files
         git.add().addFilepattern(".").call();
 
         // Commit the changes
+
         git.commit().setMessage("Sync published models with tracked files").call();
     }
 
@@ -206,18 +177,68 @@ public class GitRepoPublisherService {
             return paths.filter(Files::isRegularFile)
                         .map(path -> directory.toPath().relativize(path).toString())
                         .collect(Collectors.toSet());
+        } catch ( NoSuchFileException e) {
+            return Collections.emptySet();
         }
     }
 
     // Helper to copy the contents of one directory to another
     private void copyDirectory(File source, File target) throws IOException {
+        // Delete files in the target directory that do not exist in the source
+        deleteExtraFiles(target, source);
+    
+        // Walk through the source directory and copy files
         Files.walk(source.toPath()).forEach(sourcePath -> {
             try {
                 Path targetPath = target.toPath().resolve(source.toPath().relativize(sourcePath));
-                Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+    
+                if (Files.isDirectory(sourcePath)) {
+                    // Create directories as needed
+                    if (!Files.exists(targetPath)) {
+                        Files.createDirectories(targetPath);
+                    }
+                } else {
+                    // Copy files, replacing existing ones
+                    Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+                }
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
             }
         });
+    }
+
+    private void deleteExtraFiles(File target, File source) throws IOException {
+        try {
+            Files.walk(target.toPath())
+                .sorted(Comparator.reverseOrder()) // Ensure we delete files before directories
+                .forEach(targetPath -> {
+                    Path relativePath = target.toPath().relativize(targetPath);
+                    Path sourceEquivalent = source.toPath().resolve(relativePath);
+
+                    try {
+                        if (Files.notExists(sourceEquivalent)) {
+                            Files.delete(targetPath); // Delete if it doesn't exist in the source
+                        }
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                });
+        } catch( NoSuchFileException e ) {
+            LOGGER.debug("No files present for ${target.toPath().toString()}. Doing nothing, because no files to detele.");
+        }
+    }
+    private void deleteDirectoryContents(File directory) throws IOException {
+        if (directory.exists()) {
+            // Walk through the directory, deleting files and directories
+            Files.walk(directory.toPath())
+                .sorted(Comparator.reverseOrder()) // Delete files before directories
+                .forEach(path -> {
+                    try {
+                        Files.delete(path);
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                });
+        }
     }
 }

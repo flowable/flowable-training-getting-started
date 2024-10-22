@@ -24,7 +24,7 @@
         "cwd": "${workspaceFolder}",
         "console": "internalConsole",
         "mainClass": "com.flowable.training.handson.design.TrainingHandsOnDesignApplication",
-        "args": "--spring.profiles.active=local --spring.output.ansi.enabled=always",
+        "args": "--spring.profiles.active=git --spring.output.ansi.enabled=always",
         "projectName": "training-hands-on-design"
       },
       {

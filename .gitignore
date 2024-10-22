@@ -22,3 +22,4 @@ docker/data/
 
 # H2 Databases
 h2-database/
+training-handson-design/src/main/resources/application-git.properties
