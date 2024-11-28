@@ -1,78 +1,85 @@
-# Flowable AG Getting Started with Flowable Development Flowable Work
+# Flowable AG: Getting Started with Flowable Development - Flowable Work
 
 ## Preparation
-### Building the project artifacts
-Java and Maven are needed as a prerequisite to build this code.
-The Maven configuration of the project tries to get the Flowable dependencies form the Flowable Enterprise Repository.
-That Repository needs a Flowable enterprise account to be accessible. Get in contact with Flowable to get your Flowable subscription.
 
-As soon as you got your username and password you can add it to the `settings-flowable.xml` file in the root of the project.
-(Keep in mind, that using an unencrypted password in this file is indeed a fast but also not a suggested approach.
-Check https://maven.apache.org/guides/mini/guide-encryption.html on how to encrypt your password.)
+### Building the Project Artifacts
 
-You can then create the Flowable artifacts by executing `mvn -s settings-flowable.xml clean package`.
+Java and Maven are prerequisites for building this project. The Maven configuration fetches Flowable dependencies from the Flowable Enterprise Repository, which requires a Flowable enterprise account. You should have received a `settings.xml` file from Flowable's training team. Copy this file into your `YOUR_USER_FOLDER/.m2/` directory.
 
-### Flowable `infraless` profile
-For a setup of a decent development infrastructure dedicated Postgres and Elasticsearch instances are heavily suggested
-(e.g. by using Docker, see next chapter).
+Alternatively, you can configure access credentials by copying your username and password into the `settings-flowable.xml` file located in the root of the project.  
+**Note:** Storing passwords in plain text is not recommended. Refer to [Maven's guide on password encryption](https://maven.apache.org/guides/mini/guide-encryption.html) for secure storage.
 
-For participating a Flowable Training course it is possible to run Flowable with an `infraless` profile with an embedded H2 
-database and in a mode that works without Elasticsearch.
-You can activate this `infraless` profile by adding it to the list of activated Spring profiles for Flowable Work, Design 
-and Control by either using the start configuration of your IDE or by setting `spring.profiles.active=infraless` as a 
-JVM parameter or environment variable.
+Once configured, build the Flowable artifacts by executing the following command:
 
-**ATTENTION**: Keep in mind that the `infraless` profiles does not provide the full Flowable functionality and is absolutely
-not suggested for development, test or even production purposes.
+```sh
+mvn -s settings-flowable.xml clean package
+```
 
-### Setting up the needed Infrastructure
-Please check the following links on how to setup the infrastructure for Flowable manually without
-using Docker:
+After building, reload Maven changes in your IDE. In IntelliJ IDEA, click `Reimport All Maven Projects` in the Maven panel (CMD/CTRL + SHIFT + O).
 
-- [Postgres Database](https://documentation.flowable.com/latest/admin/installs/engage-full/#database-1)
-- [Elasticsearch](https://documentation.flowable.com/latest/admin/installs/engage-full/#elasticsearch-1)
+## Starting the Project
 
-For an easier setup with help of Docker navigate to `/docker`, then execute `docker compose up`. Needed services such as 
-Elasticsearch and a database will be started.
+Your IDE should automatically create a run configuration for the project. If not, manually create one and point it to the Flowable Work, Design, or Control applications. Use the following URLs to access the running applications:
 
-## Starting the project
-Afterwards you can start the Spring Boot application defined in `com.flowable.gsd.work.WorkApplication`. In order to achieve this,
-you can build the executable war file with maven and execute `java -jar` pointing to the built jar or create a new IDE Run Configuration. 
-Then open `http://localhost:8090` in the browser and use one of the users specified below in this document.
+- [http://localhost:8090](http://localhost:8090) - Flowable Work
+- [http://localhost:8091](http://localhost:8091) - Flowable Design
+- [http://localhost:8092](http://localhost:8092) - Flowable Control (optional)
+- [http://localhost:8093](http://localhost:8093) - Flowable Portal (optional)
 
-You can start the Flowable Design and Flowable Control applications accordingly.
 
-## Helpful links
-After both docker-compose and the application are started, these are the links for the different applications:
+## Sample Users
 
-- http://localhost:8090 - Flowable Work
-- http://localhost:8091 - Flowable Design
-- http://localhost:8092 - Flowable Control
+Below are sample user credentials for the Flowable applications:
 
-## Setting up Flowable vanilla apps with Docker
-The docker-compose.yml file also contains (commented out) preconfigured service definitions to run all Flowable apps as 
-vanilla docker images. Just uncomment the appropriate parts to start the apps together with the other infrastructure.
-These vanilla services are preconfigured to run as a replacement of any of the customized apps within this project. 
+| User                  | Role                 | Login | Password |
+|-----------------------|----------------------|-------|----------|
+| Flowable Administrator | Admin Flowable      | admin | test     |
 
-To be able to use them, log in to docker `docker login artifacts.flowable.com` by using your Flowable login.
-You will also need an appropriate Flowable license stored in `~/.flowable/flowable.license`.
-Also, a decent amount of memory is needed for your docker VM. At least 4 GB are suggested.
-Navigate to `/docker`, then execute `docker compose up`.
+
+## Running Flowable with a Database and Elasticsearch (optional)
+
+For proper development, a dedicated Postgres and Elasticsearch setup is strongly recommended. The default `infraless` profile lacks full Flowable functionality and is unsuitable for development, testing, or production environments.
+
+This repository is configured with an H2 file-based database and no Elasticsearch for training purposes. To enable `postgres` and `elastic` profiles for Flowable Work, Design, and Control, modify the application’s configuration using your IDE or set the `spring.profiles.active` JVM parameter or environment variable as follows:
+
+```sh
+spring.profiles.active=postgres,elastic
+```
+
+#### Setting Up the Required Infrastructure
+
+To run with `postgres` or `elastic` profiles, you need the necessary infrastructure. The easiest way is to use Docker, simply execute:
+
+```sh
+cd ./docker/; docker compose up
+```
+
+This starts services such as Elasticsearch and the database.
+
 
 ## Infrastructure Containers
-If you need to recreate the containers, perform the following actions:
-- Make sure the application and the docker containers are stopped.
-- Execute `docker compose down` inside the `/docker` directory. This will remove the created containers.
 
-## Data
-Data created by the database and Elasticsearch are stored in docker volumes `data_db` and `data_es`.
-This allows you to purge and recreate the containers without loosing any data.
+To recreate the containers, follow these steps:
 
-If you need a clean state for the database and elasticsearch just execute `docker compose down -v`inside the `/docker` directory.
-The volumes will be recreated as soon as you restart the containers.  
-BE CAREFUL AS WITH THIS YOU WILL LOSE ALL YOUR DATA STORED IN THE DATABASE AND ELASTICSEARCH!
+1. Stop both the application and the Docker containers.
+2. Navigate to the `/docker` directory and run:
 
-## Sample users
-| User | User Definition Key | Login | Password |
-| -------------| ------------- | ------------- | ------------- |
-| Flowable Administrator | admin-flowable | admin | test |
+   ```sh
+   cd ./docker; docker compose down
+   ```
+
+   This removes the existing containers.
+
+### Data Persistence
+
+Database and Elasticsearch data are stored in Docker volumes (`data_db` and `data_es`). This ensures data persists even if containers are recreated.
+
+To start with a clean state, execute the following command inside the `/docker` directory:
+
+```sh
+cd ./docker; docker compose down -v
+```
+
+This removes the volumes and creates fresh ones upon restarting the containers.  
+**WARNING: This action deletes all stored data in the database and Elasticsearch!**
+
