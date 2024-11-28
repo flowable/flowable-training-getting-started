@@ -2,8 +2,8 @@
 $originalBranch = git rev-parse --abbrev-ref HEAD
 Write-Output "Starting from branch: $originalBranch"
 
-# List all branches following the "gsd-*" pattern
-$branches = @(git branch --list "gsd-*" --format="%(refname:short)" | Where-Object { $_ -ne "" } | Sort-Object)
+# List all branches following the "gsd-*" pattern and sort them numerically
+$branches = @(git branch --list "gsd-*" --format="%(refname:short)" | Where-Object { $_ -ne "" } | Sort-Object { [int]($_ -replace 'gsd-', '') })
 
 # Check if any branches are found
 if ($branches.Count -eq 0) {
