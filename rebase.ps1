@@ -2,8 +2,17 @@
 $originalBranch = git rev-parse --abbrev-ref HEAD
 Write-Output "Starting from branch: $originalBranch"
 
+# Push the master branch to the remote repository
+Write-Output "Pushing 'master' branch to the remote repository..."
+git push origin master
+if ($LASTEXITCODE -ne 0) {
+    Write-Output "Failed to push 'master' branch. Please check the error and push manually."
+    exit 1
+}
+Write-Output "Successfully pushed 'master' branch."
+
 # List all branches following the "gsd-*" pattern
-$branches = @(git branch --list "gsd-*" --format="%(refname:short)" | Where-Object { $_ -ne "" } | Sort-Object)
+$branches = @(git branch --list "gsd-*" --format="%(refname:short)" | Where-Object { $_ -ne "" } | Sort-Object { [int]($_ -replace 'gsd-', '') })
 
 # Check if any branches are found
 if ($branches.Count -eq 0) {
