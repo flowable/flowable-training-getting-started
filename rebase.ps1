@@ -55,7 +55,7 @@ try {
 
         # Push the rebased branch to the remote repository
         Write-Output "Pushing '$currentBranch' to the remote repository..."
-        git push --force-with-lease
+        git push --force-with-lease origin $currentBranch
 
         if ($LASTEXITCODE -ne 0) {
             throw "Push failed for branch '$currentBranch'. Please check the error and push manually."
