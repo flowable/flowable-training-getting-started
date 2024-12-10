@@ -1,0 +1,11 @@
+###
+POST http://localhost:8090/book-flight
+Authorization: Basic YWRtaW46dGVzdA==
+Content-Type: application/json
+
+{
+  "departureCity": "Amsterdam",
+  "departureDate": "2021-06-01",
+  "returnDate": "2021-06-10",
+  "destinationCity": "New York"
+}
