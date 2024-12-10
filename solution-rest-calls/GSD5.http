@@ -1,0 +1,35 @@
+### OSS API
+POST localhost:8090/process-api/runtime/process-instances
+Authorization: Basic YWRtaW46dGVzdA==
+Content-Type: application/json
+
+{
+  "processDefinitionKey": "purchaseTicket-4",
+  "variables": [
+    {
+      "name": "creditCardNumber",
+      "value": "11111111111111113000",
+      "type": "string"
+    }
+  ]
+}
+
+### Platform API
+# First we have to get the process definition id
+GET localhost:8090/process-api/repository/process-definitions?latest=true&key=purchaseTicket-4
+Authorization: Basic YWRtaW46dGVzdA==
+Content-Type: application/json
+
+
+### Platform API (2)
+POST localhost:8090/platform-api/process-instances
+Authorization: Basic YWRtaW46dGVzdA==
+Content-Type: application/json
+
+{
+  "processDefinitionId": "PRC-purchaseTicket-4:6:759a3803-a119-11ef-8a27-00155d6c728f",
+  "values": {
+    "creditCardNumber": "11111111111111113000"
+  }
+}
+
