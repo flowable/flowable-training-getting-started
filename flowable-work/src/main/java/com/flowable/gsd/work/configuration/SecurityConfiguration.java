@@ -21,6 +21,7 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 import org.springframework.security.web.util.matcher.DispatcherTypeRequestMatcher;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration(proxyBeanMethods = false)
@@ -51,6 +52,7 @@ public class SecurityConfiguration {
         }
 
         http
+                .csrf(csrf -> csrf.ignoringRequestMatchers(toH2Console()))
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         // using this no op authentication entry point until https://github.com/spring-projects/spring-boot/issues/36948 gets resolved
                         .defaultAuthenticationEntryPointFor((request, response, authException) -> {}, new DispatcherTypeRequestMatcher(DispatcherType.ERROR))
@@ -62,8 +64,7 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(configurer -> configurer
                         .requestMatchers(antMatcher("/analytics-api/**")).hasAuthority(SecurityConstants.ACCESS_REPORTS_METRICS)
-                        .requestMatchers(antMatcher("/work-object-api/**")).hasAuthority(SecurityConstants.ACCESS_WORKOBJECT_API)
-                        // allow context root for all (it triggers the loading of the initial page)
+                        .requestMatchers(toH2Console()).permitAll()
                         .requestMatchers(antMatcher("/")).permitAll()
                         .requestMatchers(
                                 antMatcher("/**/*.svg"), antMatcher("/**/*.ico"), antMatcher("/**/*.png"), antMatcher("/**/*.woff2"), antMatcher("/**/*.css"),
