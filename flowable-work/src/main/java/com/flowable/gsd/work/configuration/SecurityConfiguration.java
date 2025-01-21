@@ -62,7 +62,6 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(configurer -> configurer
                         .requestMatchers(antMatcher("/analytics-api/**")).hasAuthority(SecurityConstants.ACCESS_REPORTS_METRICS)
-                        .requestMatchers(antMatcher("/work-object-api/**")).hasAuthority(SecurityConstants.ACCESS_WORKOBJECT_API)
                         // allow context root for all (it triggers the loading of the initial page)
                         .requestMatchers(antMatcher("/")).permitAll()
                         .requestMatchers(
