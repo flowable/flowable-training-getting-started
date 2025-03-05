@@ -10,7 +10,7 @@
 
 3. **Build the Project**
    Sync/Reload your Maven project in your IDE (e.g., in IntelliJ, open the "Maven" panel and click the following icon):
-   ![Reload](./documentation/reload.png)
+   ![Reload](./documentation/reload.png)<br/>
    This should usually happen automatically.
 
 ---
