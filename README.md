@@ -9,8 +9,9 @@
      _If you don’t want to overwrite your current file, see the [Custom settings.xml](#custom-settingsxml) section below._
 
 3. **Build the Project**
-   - Run Maven to build the project.
-   - Refresh Maven in your IDE (e.g., in IntelliJ IDEA press **CTRL+SHIFT+O**).
+   Sync/Reload your Maven project in your IDE (e.g., in IntelliJ, open the "Maven" panel and click the following icon):
+   ![Reload](reload.png)
+   This should usually happen automatically.
 
 ---
 
