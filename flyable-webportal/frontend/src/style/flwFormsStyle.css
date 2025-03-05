@@ -1,0 +1,51 @@
+/*
+    These styles customize Flowable Forms to match your project's design.
+*/
+
+.flw__panel__label {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.flw__container--showBorder__content-wrapper {
+    box-shadow: 0 1px 3px rgb(0 0 0 / 8%), 0 1px 2px rgb(0 0 0 / 25%);
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+/* Base label styling */
+.flw__label {
+    position: absolute;
+    top: 6px;
+    left: 12px;
+    font-size: 12px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    padding: 0 4px;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.flw__label > span {
+    padding: 0 5px;
+    background: var(--flw-forms-background-color);
+}
+
+.flw__component {
+    margin-bottom: 15px;
+}
+
+.flw__component__input {
+    padding: 12px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: transparent;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.flw__component__input:focus {
+    border-color: red;
+}
