@@ -33,7 +33,7 @@ When running, check these endpoints:
 - [http://localhost:8092](http://localhost:8092) – Flowable Control (optional)
 - [http://localhost:8093](http://localhost:8093) – Flyable Webportal (optional)
 
-> **Quick Tip:** If Flowable Work and Design are running, you’re set.
+> **Quick Tip:** If Flowable Work and Design are running, you’re set. Just log in with admin/test and you're good to go.
 
 > **Windows Users:** If you see the "Command line is too long" error (common with IntelliJ IDEA), check the [Common issues](#common-issues) section.
 
@@ -53,7 +53,7 @@ When running, check these endpoints:
 
 _(You can skip this section if you’re in a hurry.)_
 
-## Custom settings.xml
+## Optional: Custom settings.xml
 
 If you prefer not to overwrite your own `settings.xml`, copy your username and password into the provided `settings-flowable.xml` (located in the project root).
 > **Warning:** Storing passwords in plain text isn’t recommended. See [Maven's guide on password encryption](https://maven.apache.org/guides/mini/guide-encryption.html).
@@ -63,7 +63,7 @@ Build using:
 mvn -s settings-flowable.xml clean package
 ```
 
-## Running Flowable with a Database & Elasticsearch
+## Optional: Running Flowable with a Database & Elasticsearch
 
 For a more production-ready setup, use a dedicated Postgres and Elasticsearch setup instead of the default H2 database.
 
