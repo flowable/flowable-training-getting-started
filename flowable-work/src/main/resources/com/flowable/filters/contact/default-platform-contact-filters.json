@@ -1,0 +1,48 @@
+[
+  {
+    "key": "all",
+    "labelKey": "contacts.filter.all",
+    "defaultLabel": "All",
+    "parameters": {}
+  },
+  {
+    "key": "internal",
+    "labelKey": "contacts.filter.internal",
+    "defaultLabel": "Internal",
+    "parameters": {
+      "must": {
+        "type": "default"
+      }
+    }
+  },
+  {
+    "key": "external",
+    "labelKey": "contacts.filter.external",
+    "defaultLabel": "External",
+    "parameters": {
+      "must" : {
+        "type": "external"
+      }
+    }
+  },
+  {
+    "key": "active",
+    "labelKey": "contacts.filter.active",
+    "defaultLabel": "Active",
+    "parameters": {
+      "must" : {
+        "state": "ACTIVE"
+      }
+    }
+  },
+  {
+    "key": "inactive",
+    "labelKey": "contacts.filter.inactive",
+    "defaultLabel": "Inactive",
+    "parameters": {
+      "must" : {
+        "state": "INACTIVE"
+      }
+    }
+  }
+]

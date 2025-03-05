@@ -1,0 +1,72 @@
+[
+  {
+    "key": "user-default",
+    "name": "Default user",
+    "description": "Creates a new, non-specific user where the member groups can be freely chosen.",
+    "initialState": "ACTIVE",
+    "initialSubState": "ACTIVE",
+    "forms": {
+      "init": "F01_userInitFormDefault",
+      "view": "F02_userViewFormDefault",
+      "edit": "F03_userEditFormDefault"
+    },
+    "memberGroups": [
+      "flowableUser"
+    ],
+    "lookupGroups":[
+      "flowableUser"
+    ],
+    "actionPermissions": {
+      "create": [ "flowableAdministrator" ],
+      "edit": [ "flowableAdministrator" ],
+      "deactivate": [ "flowableAdministrator" ],
+      "activate": [ "flowableAdministrator" ]
+    },
+    "conversationFilters": [ "all" ],
+    "contactFilters": [ "ACTIVE" ],
+    "allowedFeatures": [ "conversations", "websockets", "contacts", "createConversation", "editConversationTitle", "bubbles", "sendMessageFromProfile", "emojiPicker",
+      "markdownInput", "replyToMessage", "forwardMessage", "reactToMessage", "changeOwnPassword", "changeOwnTheme", "editOwnAvatar", "registerDevice", "work", "createWork",
+      "personalAccessTokens",
+      "tasks", "documents", "lastReadAvatars", "snooze" ]
+  },
+  {
+    "key": "user-admin",
+    "name": "Administration User",
+    "description": "Creates a new, administration user.",
+    "initialUserSubType": "admin",
+    "initialState": "ACTIVE",
+    "initialSubState": "ACTIVE",
+    "forms": {
+      "init": "F01_userInitFormDefault",
+      "view": "F02_userViewFormDefault",
+      "edit": "F03_userEditFormDefault"
+    },
+    "memberGroups": [
+      "flowableUser",
+      "flowableAdministrator"
+    ],
+    "lookupGroups":[
+      "flowableUser"
+    ],
+    "actionPermissions": {
+      "create": [ "flowableAdministrator"],
+      "edit": [ "flowableAdministrator" ],
+      "deactivate": [ "flowableAdministrator" ],
+      "activate": [ "flowableAdministrator" ]
+    },
+    "initialVariables": {
+      "adminUser": true,
+      "description": "Admin"
+    },
+    "conversationFilters": [ "all" ],
+    "contactFilters": [ "all", "internal", "external", "inactive", "clientsWithoutCa" ],
+    "allowedFeatures": [ "contacts", "createUser", "reports", "reportsMetrics",
+      "actuators", "user-mgmt", "search-api", "templateManagement",
+      "conversations", "websockets", "createConversation", "editConversationTitle", "sendMessageFromProfile", "emojiPicker", "markdownInput", "replyToMessage", "forwardMessage",
+      "reactToMessage", "editMessage", "clearMessage", "deleteMessage", "fileUpload", "audioMessage", "videoMessage", "slashActions",
+      "work", "createWork", "tasks", "editOwnAvatar", "editContactAvatar", "editConversationAvatar", "changeOwnPassword", "changeOwnTheme", "changeContactPassword",
+      "impersonateUser",
+      "personalAccessTokens",
+      "registerDevice", "documents", "lastReadAvatars", "snooze", "compliance", "themeManagement", "dashboards" ]
+  }
+]

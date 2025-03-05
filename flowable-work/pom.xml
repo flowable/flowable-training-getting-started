@@ -46,10 +46,6 @@
             <groupId>com.flowable.platform</groupId>
             <artifactId>flowable-platform-default-models</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.flowable.platform</groupId>
-            <artifactId>flowable-platform-default-idm-models</artifactId>
-        </dependency>
 
         <!-- Flowable Inspect -->
         <!-- ================ -->
