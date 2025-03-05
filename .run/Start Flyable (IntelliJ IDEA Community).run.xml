@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Start Work (IntelliJ IDEA Community)" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="Start Flyable (IntelliJ IDEA Community)" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -23,7 +23,7 @@
             <list />
           </option>
           <option name="resolveToWorkspace" value="false" />
-          <option name="workingDirPath" value="$PROJECT_DIR$/flowable-work" />
+          <option name="workingDirPath" value="$PROJECT_DIR$/flyable-webportal" />
         </MavenRunnerParameters>
       </option>
     </MavenSettings>

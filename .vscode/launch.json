@@ -1,0 +1,44 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-WorkApplication<flowable-work>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.flowable.gsd.work.WorkApplication",
+            "projectName": "flowable-work",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-FlyableWebportalApplication<flyable-webportal>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.flowable.training.flyable.FlyableWebportalApplication",
+            "projectName": "flyable-webportal",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-DesignApplication<flowable-design>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.flowable.gsd.design.DesignApplication",
+            "projectName": "flowable-design",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ControlApplication<flowable-control>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.flowable.gsd.control.ControlApplication",
+            "projectName": "flowable-control",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

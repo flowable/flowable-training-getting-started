@@ -1,29 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+<!--
+This file is just a sample!
+Changing the username and password here will not do anything on its own.
+Please read the README.md to understand how to use this file.
+!-->
+<settings
+        xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 http://maven.apache.org/xsd/settings-1.2.0.xsd"
+        xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <servers>
         <server>
+            <!--
+                These are not your personal accounts (e.g., user_1), but the ones provided to you in the training preparation email.
+                Ideally, do not modify this file; instead, copy the provided settings.xml file to your .m2 folder.
+            -->
+            <username>YOUR TRAINING ACCESS HERE, e.g. tra-080-bot</username>
+            <password>The password to access the artifacts</password>
             <id>flowable-repo</id>
-            <username>USER</username> <!-- Replace USER -->
-            <password>PASSWORD</password> <!-- Replace PASSWORD -->
         </server>
     </servers>
     <profiles>
         <profile>
-            <id>flowable-artifacts</id>
+            <id>flowable</id>
             <repositories>
                 <repository>
                     <id>flowable-repo</id>
-                    <url>https://artifacts.flowable.com/artifactory/flowable-maven-all</url>
+                    <name>Flowable Repository</name>
+                    <url>https://flowable.jfrog.io/artifactory/flowable-maven-all</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <id>spring-milestones</id>
+                    <name>Spring Milestones</name>
+                    <url>https://repo.spring.io/milestone</url>
                     <snapshots>
                         <enabled>false</enabled>
                     </snapshots>
                 </repository>
             </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>flowable-repo</id>
+                    <name>Flowable Plugin Repository</name>
+                    <url>https://flowable.jfrog.io/artifactory/flowable-maven-all</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </pluginRepository>
+            </pluginRepositories>
         </profile>
     </profiles>
     <activeProfiles>
-        <activeProfile>flowable-artifacts</activeProfile>
+        <activeProfile>flowable</activeProfile>
     </activeProfiles>
 </settings>

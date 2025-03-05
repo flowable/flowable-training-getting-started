@@ -1,78 +1,102 @@
-# Flowable AG Getting Started with Flowable Development Flowable Work
+# Building & Running Project Artifacts
 
-## Preparation
-### Building the project artifacts
-Java and Maven are needed as a prerequisite to build this code.
-The Maven configuration of the project tries to get the Flowable dependencies form the Flowable Enterprise Repository.
-That Repository needs a Flowable enterprise account to be accessible. Get in contact with Flowable to get your Flowable subscription.
+1. **License File**  
+   Copy the provided `flowable.license` file to a folder named `.flowable` in your home directory (e.g., `~/.flowable/`).
 
-As soon as you got your username and password you can add it to the `settings-flowable.xml` file in the root of the project.
-(Keep in mind, that using an unencrypted password in this file is indeed a fast but also not a suggested approach.
-Check https://maven.apache.org/guides/mini/guide-encryption.html on how to encrypt your password.)
+2. **Prerequisites**
+   - **Java and Maven:** Ensure these are installed.
+   - **Maven Settings:** Copy the provided `settings.xml` into your `~/.m2/` directory.  
+     _If you don’t want to overwrite your current file, see the [Custom settings.xml](#custom-settingsxml) section below._
 
-You can then create the Flowable artifacts by executing `mvn -s settings-flowable.xml clean package`.
+3. **Build the Project**
+   - Run Maven to build the project.
+   - Refresh Maven in your IDE (e.g., in IntelliJ IDEA press **CTRL+SHIFT+O**).
 
-### Flowable `infraless` profile
-For a setup of a decent development infrastructure dedicated Postgres and Elasticsearch instances are heavily suggested
-(e.g. by using Docker, see next chapter).
+---
 
-For participating a Flowable Training course it is possible to run Flowable with an `infraless` profile with an embedded H2 
-database and in a mode that works without Elasticsearch.
-You can activate this `infraless` profile by adding it to the list of activated Spring profiles for Flowable Work, Design 
-and Control by either using the start configuration of your IDE or by setting `spring.profiles.active=infraless` as a 
-JVM parameter or environment variable.
+## Starting the Applications
 
-**ATTENTION**: Keep in mind that the `infraless` profiles does not provide the full Flowable functionality and is absolutely
-not suggested for development, test or even production purposes.
+- **IntelliJ IDEA Ultimate:** Use the provided Spring Boot configurations.  
+  ![IntelliJ IDEA Ultimate](./documentation/ultimate-configurations.png)
 
-### Setting up the needed Infrastructure
-Please check the following links on how to setup the infrastructure for Flowable manually without
-using Docker:
+- **IntelliJ IDEA Community:** Use the Maven configurations (Community Edition doesn’t support Spring Boot configs directly).  
+  ![IntelliJ IDEA Community](./documentation/community-configuration.png)
 
-- [Postgres Database](https://documentation.flowable.com/latest/admin/installs/engage-full/#database-1)
-- [Elasticsearch](https://documentation.flowable.com/latest/admin/installs/engage-full/#elasticsearch-1)
+- **Visual Studio Code:**  
+  Run the applications via the provided `launch.json` or install the Spring Boot Extension Pack.  
+  ![VSCode Configuration](./documentation/vscode-configurations.png)
 
-For an easier setup with help of Docker navigate to `/docker`, then execute `docker compose up`. Needed services such as 
-Elasticsearch and a database will be started.
+When running, check these endpoints:
+- [http://localhost:8090](http://localhost:8090) – Flowable Work
+- [http://localhost:8091](http://localhost:8091) – Flowable Design
+- [http://localhost:8092](http://localhost:8092) – Flowable Control (optional)
+- [http://localhost:8093](http://localhost:8093) – Flyable Webportal (optional)
 
-## Starting the project
-Afterwards you can start the Spring Boot application defined in `com.flowable.gsd.work.WorkApplication`. In order to achieve this,
-you can build the executable war file with maven and execute `java -jar` pointing to the built jar or create a new IDE Run Configuration. 
-Then open `http://localhost:8090` in the browser and use one of the users specified below in this document.
+> **Quick Tip:** If Flowable Work and Design are running, you’re set.
 
-You can start the Flowable Design and Flowable Control applications accordingly.
+> **Windows Users:** If you see the "Command line is too long" error (common with IntelliJ IDEA), check the [Common issues](#common-issues) section.
 
-## Helpful links
-After both docker-compose and the application are started, these are the links for the different applications:
+---
 
-- http://localhost:8090 - Flowable Work
-- http://localhost:8091 - Flowable Design
-- http://localhost:8092 - Flowable Control
+## User Credentials
 
-## Setting up Flowable vanilla apps with Docker
-The docker-compose.yml file also contains (commented out) preconfigured service definitions to run all Flowable apps as 
-vanilla docker images. Just uncomment the appropriate parts to start the apps together with the other infrastructure.
-These vanilla services are preconfigured to run as a replacement of any of the customized apps within this project. 
+| User                   | Role           | Login  | Password |
+|------------------------|----------------|--------|----------|
+| Flowable Administrator | Flowable-Admin | admin  | test     |
+| User 1                 | Flowable-User  | user_1 | training |
+| User 2                 | Flowable-User  | user_2 | training |
 
-To be able to use them, log in to docker `docker login artifacts.flowable.com` by using your Flowable login.
-You will also need an appropriate Flowable license stored in `~/.flowable/flowable.license`.
-Also, a decent amount of memory is needed for your docker VM. At least 4 GB are suggested.
-Navigate to `/docker`, then execute `docker compose up`.
+---
 
-## Infrastructure Containers
-If you need to recreate the containers, perform the following actions:
-- Make sure the application and the docker containers are stopped.
-- Execute `docker compose down` inside the `/docker` directory. This will remove the created containers.
+# Optional Additional Information
 
-## Data
-Data created by the database and Elasticsearch are stored in docker volumes `data_db` and `data_es`.
-This allows you to purge and recreate the containers without loosing any data.
+_(You can skip this section if you’re in a hurry.)_
 
-If you need a clean state for the database and elasticsearch just execute `docker compose down -v`inside the `/docker` directory.
-The volumes will be recreated as soon as you restart the containers.  
-BE CAREFUL AS WITH THIS YOU WILL LOSE ALL YOUR DATA STORED IN THE DATABASE AND ELASTICSEARCH!
+## Custom settings.xml
 
-## Sample users
-| User | User Definition Key | Login | Password |
-| -------------| ------------- | ------------- | ------------- |
-| Flowable Administrator | admin-flowable | admin | test |
+If you prefer not to overwrite your own `settings.xml`, copy your username and password into the provided `settings-flowable.xml` (located in the project root).
+> **Warning:** Storing passwords in plain text isn’t recommended. See [Maven's guide on password encryption](https://maven.apache.org/guides/mini/guide-encryption.html).
+
+Build using:
+```sh
+mvn -s settings-flowable.xml clean package
+```
+
+## Running Flowable with a Database & Elasticsearch
+
+For a more production-ready setup, use a dedicated Postgres and Elasticsearch setup instead of the default H2 database.
+
+1. **Activate Profiles:**  
+   Enable the `postgres` and `elastic` profiles:
+   ```sh
+   spring.profiles.active=postgres,elastic
+   ```
+
+2. **Docker Setup:**  
+   The simplest way to set up the necessary services is with Docker:
+   ```sh
+   cd ./docker/
+   docker compose up
+   ```
+
+3. **Recreating Containers:**
+   - To stop and remove containers:
+     ```sh
+     cd ./docker
+     docker compose down
+     ```
+   - To remove Docker volumes (data persistence for the database and Elasticsearch), run:
+     ```sh
+     cd ./docker
+     docker compose down -v
+     ```
+     **WARNING:** This deletes all stored data.
+
+## Common Issues
+
+### Command Line is Too Long (Windows)
+If you see the error “Command line is too long” in IntelliJ IDEA on Windows, click the **Shorten Command Line** button at the bottom left or update the "Shorten commandline" option in the Spring Boot run configuration.
+
+### npm install Problems
+Running `mvn install` may trigger the Flyable Webportal to install frontend dependencies. In most cases, this isn’t necessary since the project auto-builds on import. Check the optional details if you need to run it manually.
+

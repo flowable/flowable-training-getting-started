@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Start Frontend" type="js.build_tools.npm">
-    <package-json value="$PROJECT_DIR$/Flyable Webportal/frontend/package.json" />
+  <configuration default="false" name="Start Flyable (Frontend only)" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/flyable-webportal/frontend/package.json" />
     <command value="run" />
     <scripts>
       <script value="start" />

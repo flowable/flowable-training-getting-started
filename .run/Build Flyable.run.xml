@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Build Webportal" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="Build Flyable" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -14,6 +14,7 @@
               <option value="install" />
             </list>
           </option>
+          <option name="multimoduleDir" />
           <option name="pomFileName" />
           <option name="profilesMap">
             <map />
@@ -22,7 +23,7 @@
             <list />
           </option>
           <option name="resolveToWorkspace" value="false" />
-          <option name="workingDirPath" value="$PROJECT_DIR$/Flyable Webportal" />
+          <option name="workingDirPath" value="$PROJECT_DIR$/flyable-webportal" />
         </MavenRunnerParameters>
       </option>
     </MavenSettings>

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Web Portal" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+  <configuration default="false" name="Flyable (External Frontend)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
     <module name="flyable-webportal" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.flowable.training.flyable.FlyableWebportalApplication" />
