@@ -18,7 +18,7 @@ For any issues or questions, refer to the documentation or contact `training@flo
 ## Architecture
 The application consists of two main components:
 
-- **Backend**: A **Spring Boot** application (`FlyableWebportalApplication`)
+- **Backend**: A **Spring Boot** application (`FlyableBookingPortalApplication`)
 - **Frontend**: A **React + Vite** application
 
 The backend handles **authentication/authorization** and relays API calls to a **Flowable Work** application. The frontend does not communicate directly with Flowable; instead, all requests are routed through the backend for authentication, security, and API management.

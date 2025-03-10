@@ -61,12 +61,6 @@ public class FlowableAdminService {
         String uri = "app-api/app-repository/deployments";
         try {
             // send a POST request with multi form data (file + name)
-            MultiValueMap<String, Object> parts = new LinkedMultiValueMap<>();
-
-            parts.add("creatorId", "admin");
-            parts.add("tenantId", "default");
-            parts.add("filePart", resource);
-
             MultipartBodyBuilder bodyBuilder = new MultipartBodyBuilder();
             bodyBuilder.part("file", resource);
             bodyBuilder.part("creatorId", "admin");

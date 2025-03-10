@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>flyable-webportal</artifactId>
+    <artifactId>flyable-booking-portal</artifactId>
     <packaging>jar</packaging>
 
-    <name>Flyable Webportal</name>
-    <description>Flyable Webportal</description>
+    <name>Flyable Booking Portal</name>
+    <description>Flyable Booking Portal</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -87,7 +87,7 @@
 
     <profiles>
         <profile>
-            <id>frontend</id>
+            <id>build-flyable-frontend</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>

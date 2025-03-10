@@ -12,11 +12,11 @@
         },
         {
             "type": "java",
-            "name": "Spring Boot-FlyableWebportalApplication<flyable-webportal>",
+            "name": "Spring Boot-FlyableBookingPortalApplication<flyable-booking-portal>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.flowable.training.flyable.FlyableWebportalApplication",
-            "projectName": "flyable-webportal",
+            "mainClass": "com.flowable.training.flyable.FlyableBookingPortalApplication",
+            "projectName": "flyable-booking-portal",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         },

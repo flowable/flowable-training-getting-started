@@ -12,13 +12,14 @@ Follow this guide carefully, step by step, to ensure a smooth setup. No jumping 
 
 2. **Prerequisites**
    - **Java SDK:** Java 17 or newer is required for this setup.
-   - **Maven Settings:** Copy the provided `settings.xml` into your `~/.m2/` directory. Example: `C:\Users\YourName\.m2\settings.xml` or `~/.m2/settings.xml` on Unix systems.  
-     _If you don’t want to overwrite your current file, see the [Custom settings.xml](#custom-settingsxml) section below._
+   - **Maven Settings:** Copy the provided `settings.xml` into your `~/.m2/` directory. Example: `C:\Users\YourName\.m2\settings.xml` or `~/.m2/settings.xml` on macOS/Linux.  
+   <br/>
+     _If you don’t want to overwrite your current `settings.xml` or already mirror the Flowable artifacts, see the [Custom settings.xml](#optional-custom-settingsxml) section below._
 
 3. **Build the Project**
-   Sync/Reload your Maven project in your IDE (e.g., in IntelliJ, open the "Maven" panel and click the following icon):
+   Sync/Reload your Maven project in your IDE (e.g., in IntelliJ, open the "Maven" panel and click the following icon):<br/>
    ![Reload](./documentation/reload.png)<br/>
-   This should usually happen automatically.
+   Some IDEs such as IntelliJ IDEA may do this automatically.
 
 ---
 
@@ -38,7 +39,7 @@ When running, check these endpoints:
 - [http://localhost:8090](http://localhost:8090) – Flowable Work
 - [http://localhost:8091](http://localhost:8091) – Flowable Design
 - [http://localhost:8092](http://localhost:8092) – Flowable Control (optional)
-- [http://localhost:8093](http://localhost:8093) – Flyable Webportal (optional)
+- [http://localhost:8093](http://localhost:8093) – Flyable Booking Portal (optional)
 
 > **Quick Tip:** If Flowable Work and Design are running, you’re set. Just log in with admin/test and you're good to go.
 
@@ -107,5 +108,5 @@ For a more production-ready setup, use a dedicated Postgres and Elasticsearch se
 If you see the error “Command line is too long” in IntelliJ IDEA on Windows, click the **Shorten Command Line** button at the bottom left or update the "Shorten commandline" option in the Spring Boot run configuration.
 
 ### npm install Problems
-Running `mvn install` may trigger the Flyable Webportal to install frontend dependencies. In most cases, this isn’t necessary since the project auto-builds on import. Check the optional details if you need to run it manually.
+Running `mvn install` may trigger the Flyable Booking Portal to install frontend dependencies. In most cases, this isn’t necessary since the project auto-builds on import. Check the optional details if you need to run it manually.
 

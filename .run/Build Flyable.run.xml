@@ -23,7 +23,7 @@
             <list />
           </option>
           <option name="resolveToWorkspace" value="false" />
-          <option name="workingDirPath" value="$PROJECT_DIR$/flyable-webportal" />
+          <option name="workingDirPath" value="$PROJECT_DIR$/flyable-booking-portal" />
         </MavenRunnerParameters>
       </option>
     </MavenSettings>

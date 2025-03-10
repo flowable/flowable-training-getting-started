@@ -4,13 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Main entry point for the Flyable Webportal application.
+ * Main entry point for the Flyable Booking Portal application.
  */
 @SpringBootApplication
-public class FlyableWebportalApplication {
+public class FlyableBookingPortalApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FlyableWebportalApplication.class, args);
+        SpringApplication.run(FlyableBookingPortalApplication.class, args);
     }
 
 }

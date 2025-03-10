@@ -20,7 +20,7 @@
         <module>flowable-work</module>
         <module>flowable-design</module>
         <module>flowable-control</module>
-        <module>flyable-webportal</module>
+        <module>flyable-booking-portal</module>
     </modules>
 
     <properties>
