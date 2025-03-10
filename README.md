@@ -1,11 +1,18 @@
 # Building & Running Project Artifacts
 
+--- 
+🚨🚨**Important**🚨🚨 
+
+Follow this guide carefully, step by step, to ensure a smooth setup. No jumping ahead! 😉
+
+----
+
 1. **License File**  
    Copy the provided `flowable.license` file to a folder named `.flowable` in your home directory (e.g., `~/.flowable/`).
 
 2. **Prerequisites**
-   - **Java and Maven:** Ensure these are installed.
-   - **Maven Settings:** Copy the provided `settings.xml` into your `~/.m2/` directory.  
+   - **Java SDK:** Java 17 or newer is required for this setup.
+   - **Maven Settings:** Copy the provided `settings.xml` into your `~/.m2/` directory. Example: `C:\Users\YourName\.m2\settings.xml` or `~/.m2/settings.xml` on Unix systems.  
      _If you don’t want to overwrite your current file, see the [Custom settings.xml](#custom-settingsxml) section below._
 
 3. **Build the Project**
@@ -54,8 +61,9 @@ When running, check these endpoints:
 _(You can skip this section if you’re in a hurry.)_
 
 ## Optional: Custom settings.xml
+Many organizations use a custom `settings.xml` file for Maven and may already have the Flowable artifacts in their repository. In that case, you don't need to overwrite the settings or do anything.
 
-If you prefer not to overwrite your own `settings.xml`, copy your username and password into the provided `settings-flowable.xml` (located in the project root).
+If your organization does not (yet) mirror the Flowable artifacts and you prefer not to overwrite your own `settings.xml`, copy your username (e.g. tra-0090-bot) and password into the `settings-flowable.xml` located in the project root.
 > **Warning:** Storing passwords in plain text isn’t recommended. See [Maven's guide on password encryption](https://maven.apache.org/guides/mini/guide-encryption.html).
 
 Build using:
