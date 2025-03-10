@@ -22,3 +22,4 @@ docker/data/
 
 # Flowable
 h2-database/
+/h2-db/flyable.mv.db
