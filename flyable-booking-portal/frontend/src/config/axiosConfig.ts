@@ -55,7 +55,7 @@ flyableAxiosInstance.interceptors.response.use(
       if (isTokenExpired) {
         clearJwt();
         clearUserInfos();
-        window.location.href = '/login';
+        window.location.href = '#/login';
       }
 
       const isFlowableUnavailable = status === 503 && data?.reason === 'FLOWABLE_UNAVAILABLE';
