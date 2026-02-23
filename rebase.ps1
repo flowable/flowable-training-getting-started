@@ -1,36 +1,60 @@
+param(
+    [string]$StartFrom = "",
+    [string]$BaseBranch = "main"
+)
+
 # Store the current branch name
 $originalBranch = git rev-parse --abbrev-ref HEAD
 Write-Output "Starting from branch: $originalBranch"
 
-# Push the master branch to the remote repository
-Write-Output "Pushing 'master' branch to the remote repository..."
-git push origin master
-if ($LASTEXITCODE -ne 0) {
-    Write-Output "Failed to push 'master' branch. Please check the error and push manually."
+# Push the base branch to the remote repository
+Write-Output "Pushing '$BaseBranch' branch to the remote repository..."
+git push origin $BaseBranch
+if ($LASTEXITCODE -ne 0)
+{
+    Write-Output "Failed to push '$BaseBranch' branch. Please check the error and push manually."
     exit 1
 }
-Write-Output "Successfully pushed 'master' branch."
+Write-Output "Successfully pushed '$BaseBranch' branch."
 
 # List all branches following the "gsd-*" pattern
-$branches = @(git branch --list "gsd-*" --format="%(refname:short)" | Where-Object { $_ -ne "" } | Sort-Object { [int]($_ -replace 'gsd-', '') })
+$allBranches = @(git branch --list "gsd-*" --format="%(refname:short)" | Where-Object { $_ -ne "" } | Sort-Object { [int]($_ -replace 'gsd-', '') })
 
 # Check if any branches are found
-if ($branches.Count -eq 0) {
+if ($allBranches.Count -eq 0)
+{
     Write-Output "No branches found matching the pattern 'gsd-*'."
     exit 1
 }
 
+# Apply --StartFrom filter if provided
+$branches = $allBranches
+if ($StartFrom -ne "")
+{
+    $startIndex = [Array]::IndexOf($allBranches, $StartFrom)
+    if ($startIndex -eq -1)
+    {
+        Write-Output "Branch '$StartFrom' not found in gsd-* branches. Available branches:"
+        $allBranches | ForEach-Object { Write-Output "  $_" }
+        exit 1
+    }
+    $branches = $allBranches[$startIndex..($allBranches.Count - 1)]
+    Write-Output "Resuming from branch: $StartFrom"
+}
+
 # Debug output to verify branches
-Write-Output "Found the following branches:"
+Write-Output "Processing the following branches:"
 $branches | ForEach-Object { Write-Output "  $_" }
 
 # Check for unstaged changes and stash them if present
 $status = git status --porcelain
 $hasChanges = $false
-if ($status) {
+if ($status)
+{
     Write-Output "Detected uncommitted changes. Stashing them temporarily..."
     git stash push -m "Temporary stash for rebase script"
-    if ($LASTEXITCODE -ne 0) {
+    if ($LASTEXITCODE -ne 0)
+    {
         Write-Output "Failed to stash changes. Please resolve any issues before running the script."
         exit 1
     }
@@ -38,71 +62,111 @@ if ($status) {
     Write-Output "Changes stashed successfully."
 }
 
-try {
-    # Iterate over each branch and perform rebase
+try
+{
     for ($i = 0; $i -lt $branches.Count; $i++) {
         $currentBranch = $branches[$i]
-        $parentBranch = if ($i -eq 0) { "master" } else { $branches[$i - 1] }
-        Write-Output "Current branch: $currentBranch"
 
-        Write-Output "Rebasing branch '$currentBranch' onto its parent '$parentBranch'..."
-
-        # Checkout the current branch
-        $checkoutResult = git checkout $currentBranch
-        if ($LASTEXITCODE -ne 0) {
-            throw "Failed to checkout branch '$currentBranch'"
+        # Determine parent: if resuming mid-chain, gsd-N's parent is the previous branch in the full list
+        if ($i -eq 0)
+        {
+            if ($StartFrom -ne "")
+            {
+                $fullIndex = [Array]::IndexOf($allBranches, $currentBranch)
+                $parentBranch = if ($fullIndex -eq 0)
+                {
+                    $BaseBranch
+                }
+                else
+                {
+                    $allBranches[$fullIndex - 1]
+                }
+            }
+            else
+            {
+                $parentBranch = $BaseBranch
+            }
+        }
+        else
+        {
+            $parentBranch = $branches[$i - 1]
         }
 
-        # Perform the rebase
-        $rebaseResult = git rebase $parentBranch
+        Write-Output ""
+        Write-Output "[$( $i + 1 )/$( $branches.Count )] Rebasing '$currentBranch' onto '$parentBranch'..."
 
-        if ($LASTEXITCODE -ne 0) {
-            throw "Rebase failed for branch '$currentBranch'. Resolve conflicts, then run:`n`t git rebase --continue`nOr if you want to abort:`n`t git rebase --abort"
+        git checkout $currentBranch
+        if ($LASTEXITCODE -ne 0)
+        {
+            throw "Failed to checkout branch '$currentBranch'."
+        }
+
+        git rebase $parentBranch
+        if ($LASTEXITCODE -ne 0)
+        {
+            throw @"
+Rebase failed for branch '$currentBranch'.
+
+Resolve the conflicts, then run:
+    git rebase --continue
+
+Once resolved, resume this script from where it left off with:
+    .\rebase-chain.ps1 -StartFrom $currentBranch
+
+Or to abort the rebase entirely:
+    git rebase --abort
+"@
         }
 
         Write-Output "Successfully rebased '$currentBranch' onto '$parentBranch'."
 
-        # Push the rebased branch to the remote repository
-        Write-Output "Pushing '$currentBranch' to the remote repository..."
         git push --force-with-lease origin $currentBranch
-
-        if ($LASTEXITCODE -ne 0) {
+        if ($LASTEXITCODE -ne 0)
+        {
             throw "Push failed for branch '$currentBranch'. Please check the error and push manually."
         }
 
         Write-Output "Successfully pushed '$currentBranch'."
     }
 
-    # Switch back to the original branch
+    Write-Output ""
+    Write-Output "All branches processed successfully."
     Write-Output "Switching back to original branch: $originalBranch"
     git checkout $originalBranch
-    if ($LASTEXITCODE -ne 0) {
-        throw "Failed to switch back to original branch '$originalBranch'"
+    if ($LASTEXITCODE -ne 0)
+    {
+        throw "Failed to switch back to original branch '$originalBranch'."
     }
-    Write-Output "Successfully returned to '$originalBranch'."
+    Write-Output "Done."
 }
-catch {
-    Write-Output "An error occurred: $_"
+catch
+{
+    Write-Output ""
+    Write-Output "ERROR: $_"
 
-    # Try to return to original branch even if there was an error
     Write-Output "Attempting to return to original branch '$originalBranch'..."
     git checkout $originalBranch
-    if ($LASTEXITCODE -ne 0) {
-        Write-Output "Warning: Failed to return to original branch '$originalBranch'"
+    if ($LASTEXITCODE -ne 0)
+    {
+        Write-Output "Warning: Failed to return to original branch '$originalBranch'."
     }
 
     exit 1
 }
-finally {
-    # Restore stashed changes if we stashed them
-    if ($hasChanges) {
+finally
+{
+    if ($hasChanges)
+    {
         Write-Output "Restoring your uncommitted changes..."
         git stash pop
-        if ($LASTEXITCODE -ne 0) {
-            Write-Output "Warning: Failed to restore stashed changes. Your changes are still in the stash."
-            Write-Output "You can restore them manually with 'git stash pop' or 'git stash apply'"
-            exit 1
+        if ($LASTEXITCODE -ne 0)
+        {
+            Write-Output "Warning: Failed to restore stashed changes."
+            Write-Output "Restore manually with: git stash pop"
         }
-        Write-Output "Successfully restored your uncommitted changes."
+        else
+        {
+            Write-Output "Successfully restored your uncommitted changes."
+        }
     }
 }
