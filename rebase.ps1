@@ -18,7 +18,11 @@ if ($LASTEXITCODE -ne 0)
 Write-Output "Successfully pushed '$BaseBranch' branch."
 
 # List all branches following the "gsd-*" pattern
-$allBranches = @(git branch --list "gsd-*" --format="%(refname:short)" | Where-Object { $_ -ne "" } | Sort-Object { [int]($_ -replace 'gsd-', '') })
+git fetch --prune origin | Out-Null
+$allBranches = @(git branch -r --list "origin/gsd-*" --format="%(refname:short)" |
+        ForEach-Object { $_ -replace "^origin/", "" } |
+        Where-Object { $_ -ne "" } |
+        Sort-Object { [int]($_ -replace "gsd-", "") })
 
 # Check if any branches are found
 if ($allBranches.Count -eq 0)
