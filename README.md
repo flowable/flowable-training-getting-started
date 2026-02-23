@@ -28,7 +28,7 @@ Follow this guide carefully, step by step, to ensure a smooth setup. No jumping 
 - **IntelliJ IDEA Ultimate:** Use the provided Spring Boot configurations.  
   ![IntelliJ IDEA Ultimate](./documentation/ultimate-configurations.png)
 
-- **IntelliJ IDEA Community:** Use the Maven configurations (Community Edition doesn’t support Spring Boot configs directly).  
+- **IntelliJ IDEA (without Ultimate subscription, formerly known as "Community Edition"):** Use the Maven configurations. IntelliJ IDEA without an Ultimate subscription doesn’t support Spring Boot configs directly.  
   ![IntelliJ IDEA Community](./documentation/community-configuration.png)
 
 - **Visual Studio Code:**  
