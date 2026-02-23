@@ -2,9 +2,9 @@ package com.flowable.gsd.work.configuration;
 
 import com.flowable.actuate.autoconfigure.security.servlet.ActuatorRequestMatcher;
 import com.flowable.platform.common.security.SecurityConstants;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
-import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.actuate.info.InfoEndpoint;
+import org.springframework.boot.health.actuate.endpoint.HealthEndpoint;
+import org.springframework.boot.security.autoconfigure.actuate.web.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;

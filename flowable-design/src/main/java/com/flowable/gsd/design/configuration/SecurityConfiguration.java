@@ -1,6 +1,7 @@
 package com.flowable.gsd.design.configuration;
 
 import com.flowable.autoconfigure.design.security.DesignHttpSecurityCustomizer;
+import com.flowable.autoconfigure.design.security.servlet.DesignPathRequest;
 import com.flowable.design.security.spring.web.authentication.AjaxAuthenticationFailureHandler;
 import com.flowable.design.security.spring.web.authentication.AjaxAuthenticationSuccessHandler;
 import jakarta.servlet.DispatcherType;
@@ -15,12 +16,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 import org.springframework.security.web.util.matcher.DispatcherTypeRequestMatcher;
 
 import java.util.stream.Collectors;
-
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration(proxyBeanMethods = false)
 @EnableWebSecurity
@@ -45,7 +45,8 @@ public class SecurityConfiguration {
         http
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         // using this no op authentication entry point until https://github.com/spring-projects/spring-boot/issues/36948 gets resolved
-                        .defaultAuthenticationEntryPointFor((request, response, authException) -> {}, new DispatcherTypeRequestMatcher(DispatcherType.ERROR))
+                        .defaultAuthenticationEntryPointFor((request, response, authException) -> {
+                        }, new DispatcherTypeRequestMatcher(DispatcherType.ERROR))
                         .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED), AnyRequestMatcher.INSTANCE))
                 .formLogin(formLogin -> formLogin
                         .loginProcessingUrl("/auth/login")
@@ -54,12 +55,8 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(configurer -> configurer
                         // allow context root for all (it triggers the loading of the initial page)
-                        .requestMatchers(antMatcher("/")).permitAll()
-                        .requestMatchers(
-                                antMatcher("/**/*.svg"), antMatcher("/**/*.ico"), antMatcher("/**/*.png"), antMatcher("/**/*.woff2"), antMatcher("/**/*.css"),
-                                antMatcher("/**/*.woff"), antMatcher("/**/*.html"), antMatcher("/**/*.js"),
-                                antMatcher("/**/flowable-frontend-configuration"),
-                                antMatcher("/**/index.html")).permitAll()
+                        .requestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/")).permitAll()
+                        .requestMatchers(DesignPathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
