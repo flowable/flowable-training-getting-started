@@ -27,7 +27,7 @@ try
         $currentBranch = $branches[$i]
         $parentBranch = if ($i -eq 0)
         {
-            "master"
+            "main"
         }
         else
         {

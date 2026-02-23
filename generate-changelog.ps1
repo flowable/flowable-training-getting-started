@@ -22,7 +22,7 @@ try {
     # Iterate over each branch and generate changelog
     for ($i = 0; $i -lt $branches.Count; $i++) {
         $currentBranch = $branches[$i]
-        $parentBranch = if ($i -eq 0) { "master" } else { $branches[$i - 1] }
+        $parentBranch = if ($i -eq 0) { "main" } else { $branches[$i - 1] }
         Write-Output "Current branch: $currentBranch"
 
         Write-Output "Generating changelog for branch '$currentBranch' compared to its parent '$parentBranch'..."
