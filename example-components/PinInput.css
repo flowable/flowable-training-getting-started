@@ -1,0 +1,25 @@
+.pin-input {
+    display: inline-flex;
+    gap: 12px;
+}
+
+.pin-input__box {
+    width: 48px;
+    height: 56px;
+    text-align: center;
+    font-size: 24px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.pin-input__box:focus {
+    border-color: #3b82f6;
+}
+
+.pin-input__box:disabled {
+    background: #f3f4f6;
+    color: #6b7280;
+    cursor: not-allowed;
+}

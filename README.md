@@ -102,6 +102,19 @@ For a more production-ready setup, use a dedicated Postgres and Elasticsearch se
      ```
      **WARNING:** This deletes all stored data.
 
+## Custom Components
+Developing and uploading custom form components (such as the Credit Card widget) requires additional frontend tooling.
+If you are attending a backend-focused training, you do not need to do any of this.
+
+Setup is covered in two separate guides:
+
+1. **[Frontend Environment Setup](./documentation/custom-components-setup.md)**  
+   Install Node, Yarn, the Flowable CLI, and authenticate against Artifactory and your local Flowable Design instance.
+
+2. **[Creating a Component](./documentation/custom-components-development.md)**  
+   Initialise a component library, scaffold the Credit Card component, run the live-reload dev server, and publish.
+
+
 ## Common Issues
 
 ### Command Line is Too Long (Windows)
