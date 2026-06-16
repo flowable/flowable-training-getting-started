@@ -41,7 +41,6 @@ public class SecurityConfiguration {
                         .logoutUrl("/auth/logout")
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        // using this no op authentication entry point until https://github.com/spring-projects/spring-boot/issues/36948 gets resolved
                         .defaultAuthenticationEntryPointFor((request, response, authException) -> {
                         }, new DispatcherTypeRequestMatcher(DispatcherType.ERROR))
                         .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED), AnyRequestMatcher.INSTANCE))
@@ -52,8 +51,11 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(configurer -> configurer
                         .requestMatchers(PlatformPathRequest.toStaticResources().atCommonLocations()).permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()  // add this
                         .anyRequest().authenticated()
                 )
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))  // add this
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()))  // add this
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
