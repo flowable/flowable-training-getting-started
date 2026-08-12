@@ -2,14 +2,12 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'node:path';
 import { readFileSync, existsSync } from 'node:fs';
-import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig( (config) => {
     setEnv(config.mode);
     return {
         plugins: [
             react(),
-            tsconfigPaths(),
             envPlugin(),
             devServerPlugin(),
             sourcemapPlugin(),
@@ -19,6 +17,9 @@ export default defineConfig( (config) => {
             htmlPlugin(config.mode),
             proxyPlugin(),
         ],
+        resolve: {
+            tsconfigPaths: true
+        },
         define: {
             global: 'window',
         },
@@ -156,7 +157,7 @@ function proxyPlugin() {
             return {
                 server: {
                     proxy: {
-                        "^.*": {
+                        "/flyable-api": {
                             target: proxy,
                             changeOrigin: true,
                             secure: false,

@@ -32,7 +32,7 @@ export const HeaderMenu = () => {
     <>
       <div onClick={handleMenuOpen} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
         <Avatar src={userInfos.avatar} alt={userInfos.username} sx={{ marginRight: 2 }} />
-        <Box display="flex" flexDirection="column" alignItems="flex-start">
+        <Box sx={{display:"flex", flexDirection:"column", alignItems:"flex-start"}}>
           <Typography variant="body1">{`${userInfos.firstName} ${userInfos.lastName}`}</Typography>
           <Typography variant="overline">{userInfos.username}</Typography>
         </Box>
