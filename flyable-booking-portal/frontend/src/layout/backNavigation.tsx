@@ -10,7 +10,7 @@ export const BackNavigation = () => {
   const navigate = useNavigate();
 
   return (
-    <Box pb={0.5}>
+    <Box sx={{pb: 0.5}}>
       <IconButton aria-label="back" size="large" onClick={() => navigate(-1)}>
         <ArrowBack fontSize="inherit" />
       </IconButton>

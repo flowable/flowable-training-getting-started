@@ -33,6 +33,7 @@ export const MainContent = () => {
         flex: 1,
         overflow: 'auto',
         mt: 2,
+        minHeight: 'calc(100vh - 160px)'
       }}>
       <Paper elevation={2} sx={{ display: 'flex', flexDirection: 'column', flex: 1, margin: 1 }}>
         <Container sx={{ padding: 1, flex: 1 }}>

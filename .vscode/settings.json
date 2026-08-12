@@ -1,4 +1,7 @@
 {
     "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m -Xlog:disable",
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.maven.userSettings": "/workspaces/flowable-training-getting-started/settings-flowable.xml",
+    "maven.dependency.enableConflictDiagnostics": false,
+    "maven.executable.preferMavenWrapper": false
 }
