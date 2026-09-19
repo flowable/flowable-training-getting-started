@@ -23,3 +23,11 @@ docker/data/
 # Flowable
 h2-database/
 /h2-db/flyable.mv.db
+settings-flowable.xml
+.env
+.npmrc
+flyable-booking-portal/src/main/resources/static/**
+flowable.license
+settings-flowable.xml
+flyable-booking-portal/frontend/.npmrc
+flyable-booking-portal/frontend/.env

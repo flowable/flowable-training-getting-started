@@ -10,15 +10,15 @@ export const Header = () => {
   return (
     <AppBar position="static" color="primary">
       <Toolbar>
-        <Box display="flex" flex="auto" alignItems="center" padding={2}>
+        <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1, padding: 2 }}>
           <Link to="/" style={{ color: 'inherit', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
             <img src="img/flyable-logo.png" style={{ filter: 'brightness(0) invert(1)', height: '50px', marginRight: 5 }} alt="Logo" />
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" component="div">
               Flyable Portal
             </Typography>
           </Link>
         </Box>
-        <Box display="flex" alignItems="center">
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
           <HeaderMenu />
         </Box>
       </Toolbar>
